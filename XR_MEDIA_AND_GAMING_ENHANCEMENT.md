@@ -75,7 +75,13 @@ flowchart TD
      - Real-time ROM disassembly view, header inspection, and live patch injector supporting BPS/UPS and IPS delta patches.
    - **Tactile Audio Feedback & Soundbyte Suite**:
      - Curated audio soundbytes in `assets/soundbytes/` (including iconic Michael Jackson 'Hee-Hee' audio triggers) delivering punchy, visceral sound design for counter attacks, parries, and floor clears.
-- **Automated Studio Quality Gate (`Test-StudioQualityGate.ps1`)**: Strict pre-flight script auditing file integrity, WebGL rendering readiness, and engine launcher parity across UE5, Unity 6, and Godot 4.
+- **Automated Studio Quality Gate (`Test-StudioQualityGate.ps1`)**: Strict pre-flight script auditing file integrity, WebGL rendering readiness, Meta Quest 3 / Xbox controller haptics, and engine launcher parity across UE5.8, Unity 6, and Godot 4.
+- **Antigravity Engine Forge IDE (`engine_forge.html`, `engine_forge.js`, `Start-EngineForge.ps1`, `Launch_Engine_Forge.bat`)**:
+  - Full-screen ($100\text{vw} \times 100\text{vh}$) AI Game Studio IDE unifying a Three.js PBR Viewport, Blueprint Node Graph (`combat` and procedural presets), Unreal Engine 5.8 MCP Bridge, GitHub AI Studio Multi-Agent Hierarchy (`Creative Director`, `Technical Director`, `Unreal 5.8 Specialist`, `Unity 6 (6000.4) Specialist`, `Godot 4.7 Specialist`, `AI & Combat Programmer`), and Udemy Game Dev Academy progress tracker.
+  - *Immediate Frontier Upgrade*: Migrate `engine_forge.html` from legacy `three.min.js` (`r128` CDN fallback) to **Three.js r187** (`WebGPURenderer`, TSL, cube-target `PMREMGenerator`, EON rough diffuse BRDF) and wire its UE5.8 panel directly to Unreal Engine 5.8's official native **Unreal MCP Server**.
+- **UE 5.8 & Godot 4.7 Frontier Engine Standards**:
+  - **Unreal Engine 5.8** (final planned major UE5 release before UE6): Adopt volumetric **Mesh Terrain** (true 3D overhangs, caves, cliffs with stackable non-destructive modifiers), **Lumen Probe Occlusion** (up to 2x faster GI for locked 60 FPS), **Fast Geometry Streaming**, and the native **Unreal MCP Server** inside Unreal Editor.
+  - **Godot 4.7**: Leverage native **`AreaLight3D`** rectangular area lights with soft shadows, **True HDR output** on Forward+ and Mobile across Windows/macOS/Linux Wayland, and experimental **Vulkan hardware ray tracing plumbing** (`raygen`/`miss`/`closest hit`, BLAS/TLAS via `RenderingDevice`).
 - **Master Game Studio Launcher (`GameStudio_Hub.ps1`)**: Unified PowerShell launcher orchestrating all sub-projects and PIE sessions.
 
 ---
@@ -110,6 +116,10 @@ Migrate `word-defender-xr.html`, 3D studio environments, and procedural WebGL sc
   - Utilizes `CountingSort` TSL GPU compute pass (prefix sums, histogram, scatter via atomic operations) running on WebGPU without CPU bottlenecking.
   - Supports `.spz`, `.ksplat`, `.ply`, and `KHR_gaussian_splatting` glTF extensions for photorealistic 3D captures across `3d images`, `VR creation apps`, and `My Planetarium`.
   - Features `workgroupArray` compute nodes for high-throughput memory sharing within shader workgroups; streamlined TSL node API with deprecated `viewportResolution` and `rangeFog` removed.
+- **Three.js r187 (October 30, 2026) PBR & WebGPU Scheduling Breakthroughs**:
+  - **PMREM Cube Render Target Overhaul (`PR #34585`)**: Drops the legacy `CubeUV` atlas in favor of native cube render targets for `PMREMGenerator`, reducing image-based lighting (IBL) color discrepancies by 37%–82% versus Blender Cycles and restoring clean roughness ramps.
+  - **EON Rough Diffuse BRDF (`PR #34379`)**: Adds the **Energy-preserving Oren-Nayar (EON)** rough diffuse BRDF model to `MeshPhysicalMaterial`, correcting energy loss on matte/stone/fabric surfaces.
+  - **Cooperative `compileAsync()` Scheduling (`PR #34816`)**: Caps in-flight GPU shader pipelines and cooperatively yields frames to eliminate main-thread stutters during heavy scene loads; completes removal of `r177`-deprecated `CubeUVReflectionMapping`.
 - **Node-Based `RenderPipeline`**: Unifies multi-pass rendering, bloom, and depth-of-field under a composable node pipeline without legacy `EffectComposer` pass chains.
 - **High-Pacing `Timer` Utility**: Deprecates legacy `THREE.Clock` in favor of the modern `Timer` module (`three/addons/misc/Timer.js`) for deterministic delta-time calculations.
 - **Zero-Allocation Memory Optimization**: Eliminates per-frame internal object allocations, avoiding garbage collection spikes and micro-stutters during intensive 60/120 FPS XR scenes.
@@ -638,6 +648,11 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
   - `ep10-sa1-station-square-chao-garden`: Station Square Chao Garden hotel lift & marble courtyard fountain
   - `ep11-sa1-egg-carrier-chao-garden`: Egg Carrier Chao Garden metallic airship & cybernetic sky deck
   - `ep12-sa1-mystic-ruins-chao-garden`: Mystic Ruins Chao Garden ancient Aztec stone & jungle waterfall
+- **Queued Next-Wave Episodes (`ep13`–`ep16` in `character_rotation_catalog.json`)**:
+  - `ep13-eustace-mallet`: Eustace Bagge *"That's it! I'm gettin' me mallet!"* (Brown Noise, 12-min interval)
+  - `ep14-rolf-son-of-a-shepherd`: Rolf *"Life has many doors, Ed-boy!"* (Pink Noise, 11-min interval)
+  - `ep15-courage-computer-twit`: Courage's Computer *"You twit."* (CRT White Noise, 9-min interval)
+  - `ep16-patrick-leedle`: Patrick Star *"Leedle leedle leedle lee!"* (8-Hour Deep Sleep Brown Noise, 15-min interval)
 - **Licensed Character Audio Manifest & 3D Ambience Studio**:
   - Newly deployed audio asset catalog in `assets/licensed/` with strict licensing descriptors:
     - **Music Categories**: `chill`, `hype`, `tension`, `playful`, `sonic_yyh`, `arcade_retro`, `perfect_dark`.
@@ -666,10 +681,10 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
 
 ---
 
-## 10. Antigravity 3D Art Gallery Studio & Index Museum (`index folder`)
+## 13. Antigravity 3D Art Gallery Studio & Index Museum (`index folder`)
 
 ### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\index folder\3d-gallery-studio.html`)
-The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active 76-project portfolio into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
+The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active **79-project** portfolio into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
 
 ```mermaid
 flowchart TD
@@ -717,7 +732,7 @@ flowchart TD
 
 ---
 
-## 13. Turbo Type Multi-Platform Suite: Cross-Engine Phonics & High-Speed Kinesthetics
+## 14. Turbo Type Multi-Platform Suite: Cross-Engine Phonics & High-Speed Kinesthetics
 
 ### Architecture & Multi-Engine Parity (`game studio`, `1st grade learning`, `mobile game`)
 The **Turbo Type** ecosystem unifies educational phonics learning and reflex-driven typing action across three synchronized engine runtimes:

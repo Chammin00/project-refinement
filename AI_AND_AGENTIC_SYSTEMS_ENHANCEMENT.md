@@ -16,7 +16,7 @@
 ## 1. How to train your AI: Local LLM Engine & Quantization Upgrade
 
 ### Cutting-Edge Stack (NVIDIA & GitHub Frontier 2026)
-- **NVIDIA TensorRT-LLM 1.4+ (`NVIDIA/TensorRT-LLM`)**: Major architectural release eliminating legacy static engine-compilation barriers. Features PyTorch-native execution with high-throughput NVIDIA CUDA kernels, chunked prefill, in-flight batching, native support for **DFlash 2** speculative decoding alongside model-specific MoE backend overrides, **KV-Cache Manager V2** enabled by default for Llama-family and Llama-4 architectures, and a C++ TRTLLM-based standard sampler with an explicit `sampler_type` argument inside `SamplingConfig`.
+- **NVIDIA TensorRT-LLM 1.4 / 1.5+ (`NVIDIA/TensorRT-LLM`)**: Major architectural release eliminating legacy static engine-compilation barriers. Features PyTorch-native execution with high-throughput NVIDIA CUDA kernels, chunked prefill, in-flight batching, native sparse MLA (Multi-head Latent Attention) FMHA support for DeepSeek architectures, unified 4-bit KV cache storage (NVFP4 MLA) with FlashInfer CuTe DSL backends, native support for **DFlash 2** speculative decoding alongside model-specific MoE backend overrides, **KV-Cache Manager V2** enabled by default for Llama-family and Llama-4 architectures, and a C++ TRTLLM-based standard sampler with an explicit `sampler_type` argument inside `SamplingConfig`.
 - **NVIDIA Blackwell NVFP4 Micro-Block Scaling (`NVIDIA/Model-Optimizer`)**: 
   - NVIDIA ModelOpt delivers cutting-edge Post-Training Quantization (PTQ) supporting **NVFP4** (on Blackwell B200 / GB200 / GB300) and **FP8/AWQ** (on Ada Lovelace RTX 40-series and Ampere RTX 30-series).
   - **16-Element Micro-Block Architecture**: Unlike coarse block formats (such as 32-element OCP MXFP4), NVFP4 groups weights and activations into tight **micro-blocks of 16 values**. This fine-grained grouping tracks local tensor variance and prevents accuracy posterization cliffs.
@@ -43,12 +43,13 @@
   - Boost decoding speeds by 2.5× to 3.5× tokens/second on RTX Ada Lovelace and Blackwell GPUs.
   - Aligns target NVFP4 weights with Multi-Token Prediction (MTP) and DFlash draft architectures on vLLM.
   - In mixed-precision MoE architectures (such as DeepSeek-R1 / DeepSeek-V4 variants), ModelOpt quantizes MoE expert layers into NVFP4 while maintaining attention projections, shared experts, routers, and MTP verification heads in FP8/BF16, utilizing `VLLM_USE_FLASHINFER_MOE_FP4=1` for accelerated kernel execution without shape mismatch errors.
-- **vLLM v0.33.0 Core Engine Architecture (`vllm-project/vllm`)**:
+- **vLLM v0.33.0 – v0.34.0 Core Engine Architecture (`vllm-project/vllm`)**:
+  - **v0.34.0 Engine & KV Cache Overhaul**: Promotes **Model Runner V2** to the default execution engine (deprecating Model Runner V1 entirely), enables **extensible KV caching by default** (dynamically sizing the KV cache from genuinely free post-warmup GPU memory), and updates default block-size configurations for higher memory utilization.
   - **LibTorch Stable ABI Migration**: vLLM has standardized its CUDA build pipeline on the LibTorch Stable ABI, allowing developers and clusters to upgrade underlying PyTorch versions seamlessly without requiring a full, time-consuming recompilation of vLLM.
   - **Runtime & Environment Upgrades**: Native support for **PyTorch 2.14**; dropped legacy CUDA 12.9 environments in favor of unified CUDA 12.8 / 13.x toolchains.
   - **Concurrent Worker Startup & Reliability**: Optimized engine worker initialization for Tensor Parallelism (`TP > 1`) and integrated a native watchdog monitor that automatically dumps full stack traces if engine or worker processes hang.
   - **Deprecation Cleanup**: Completely removed obsolete Medusa and MLP speculators, legacy Ray compiled-graph executors, deprecated `--mamba-cache-mode`, and legacy LM Format Enforcers. Paused text-generation requests cleanly return HTTP 503 instead of failing silently.
-  - **Streamlined Resolution via `uv`**: Ultra-fast deployment using Astral's package resolver: `uv pip install vllm --torch-backend=auto` or via official container `docker pull vllm/vllm-openai:v0.33.0`.
+  - **Streamlined Resolution via `uv`**: Ultra-fast deployment using Astral's package resolver: `uv pip install vllm --torch-backend=auto` or via official container `docker pull vllm/vllm-openai:v0.34.0`.
 
 ```python
 # NVIDIA ModelOpt NVFP4 Post-Training Quantization (PTQ) & TensorRT-LLM Export
@@ -191,7 +192,8 @@ def parse_python_module(filepath: Path):
     # 4. Generate audio samples with blended prosody
     samples, sample_rate = kokoro.create(phonemes, voice=blended_voice, speed=1.05, is_phonemes=True)
     ```
-  - Delivers lifelike conversational prosody in under 150ms total latency running locally on CPU or CUDA ONNX Runtime without cloud telemetry.
+  - Delivers lifelike conversational prosody in under 150ms per chunk running locally on CPU or CUDA ONNX Runtime without cloud telemetry.
+  - **Sentence-by-Sentence Streaming Pipeline (`r/LocalLLaMA` Nov 2026 Pattern)**: Pipe streaming LLM token deltas through a lightweight sentence-boundary splitter directly into Kokoro-82M so audio playback starts before the LLM finishes generating, achieving sub-5s end-to-end speech-to-speech latency with 128k+ context local foundational models (avoiding over-refusal without unstable abliteration).
 - **Complete Local Speech-to-Speech Loop**:
 ```
 User Mic Input ──> [ Faster-Whisper Turbo CTranslate2 ] ──> Text Prompt
@@ -311,7 +313,8 @@ flowchart TD
      - **Tandem Bridge Pipeline (`tandem_bridge.py`)**: Asynchronous Python bridge connecting Antigravity task dispatches to `http://127.0.0.1:11434` with streaming token callbacks, fallback retry logic, and structured JSON output enforcement.
      - **One-Click PowerShell Invoker (`Invoke-OllamaTandem.ps1`)**: Standardized cmdlet for invoking local reasoning passes with automatic model fallback (`antigravity-skills:latest` -> `qwen2.5-coder:14b` -> `llama3.2:latest`).
 2. **Dynamic Skill & Project Knowledge Compilation**:
-   - Automated ingestion pipeline via `sync_skills_to_ollama.py` auto-compiling over **636 KB of skills knowledge** (`skills_knowledge_base.json`) and **51 KB of project blueprints** (`projects_knowledge_base.json`) directly into a custom 86 KB `Modelfile` (`antigravity-skills:latest`), granting local models comprehensive situational awareness of all 76 workspace projects without internet access.
+   - Automated ingestion pipeline via `sync_skills_to_ollama.py` auto-compiling over **636 KB of skills knowledge** (`skills_knowledge_base.json`) and **51 KB of project blueprints** (`projects_knowledge_base.json`) directly into a custom 86 KB `Modelfile` (`antigravity-skills:latest`), granting local models comprehensive situational awareness of all **79 workspace projects** without internet access.
+   - **FastMCP 4.2 SEP-2640 Skills Integration**: Expose `skills_directory.md` and workspace `SKILL.md` artifacts via FastMCP 4.2 `SkillsDirectoryProvider` (`skill://` resources) so local Ollama and cloud agents share identical skill definitions without manual synchronization drift.
 3. **Dedicated Ollama Model Context Protocol Server (`MCP/ollama-mcp`)**:
    - Deployed a standalone FastMCP Python server at `G:\My Drive\Antigravity\Projects\MCP\ollama-mcp` providing 6 specialized tools callable by any MCP client or Antigravity subagent:
      - `ollama_list_models`: Lists all locally pulled and compiled GGUF/Ollama models with parameter counts and quantization tags.
@@ -321,7 +324,7 @@ flowchart TD
      - `ollama_get_telemetry`: Real-time GPU/CPU VRAM consumption, active inference processes, and port 11434 health checks.
      - `ollama_studio_consult`: Architecture consultant routing system design prompts directly to tailored local specialist models.
 2. **Dynamic Blueprint Ingestion**:
-   - Update `sync_skills_to_ollama.py` to ingest markdown blueprints from `project refinement` directly into the system prompt parameters, ensuring local models have full situational awareness of all 76 projects across the portfolio.
+   - Update `sync_skills_to_ollama.py` to ingest markdown blueprints from `project refinement` directly into the system prompt parameters, ensuring local models have full situational awareness of all **79 projects** across the portfolio.
 3. **Automated Modelfile Creation**:
    - Maintain customized `Modelfile` configurations with tailored temperature (`0.5`), top-p (`0.9`), and expanded context windows (`16384` or `32768` for Qwen 2.5 Coder).
 4. **Local HTTP Studio Integration**:
@@ -478,7 +481,10 @@ flowchart TD
   - Allows autonomous MCP tools to query the parent agent's LLM directly during execution (e.g. asking the model to summarize a decompiled C routine or validate an AST transformation) without leaving the tool runtime sandbox.
 - **Enterprise Security & Identity Assertions (SEP-990)**:
   - Supports Dynamic Client Registration (DCR), cryptographic identity assertions, and OAuth 2.1 loopback proxies to eliminate hardcoded secrets and enforce role-based access control (RBAC).
-- **FastMCP v4.1.4 / Python SDK v2 Integration**: Standardizing custom MCP servers on FastMCP v4.1.4 utilizing `TasksExtension` (`fastmcp[tasks]`, conforming to `io.modelcontextprotocol/tasks`), Redis-backed distributed task persistence with custom credential providers, `CurrentContext` dependency injection, and native background task decorators:
+- **FastMCP v4.2 ("Mad Skills") / Python SDK v2 Integration (`PrefectHQ/fastmcp`)**:
+  - **SEP-2640 Skills over MCP**: Standardizes server-served agent skills (`SKILL.md` + scripts/assets) using `SkillsExtension` (`skills/list`, `skills/get`) alongside `SkillProvider`, `SkillsDirectoryProvider`, and `SkillCatalogProvider`, exposing `skill://` resources dynamically while maintaining backward compatibility with FastMCP 4.1 (`list_skill_resources()`).
+  - **Google ADK 3-Legged OAuth for Agent-to-Agent (A2A)** & **Unreal Engine 5.8 Official Native Unreal MCP Server**: Supports secure A2A token delegation alongside first-party UE 5.8 Editor MCP tool orchestration inside `game-studio-mcp`.
+  - Standardizing custom MCP servers on FastMCP v4.2 utilizing `TasksExtension` (`fastmcp[tasks]`, conforming to `io.modelcontextprotocol/tasks`), Redis-backed distributed task persistence with custom credential providers, `CurrentContext` dependency injection, and native background task decorators:
 ```python
 # Modern FastMCP v4 Server with Background Tasks (SEP-1686) & Context Dependency Injection
 from fastmcp import FastMCP

@@ -66,6 +66,12 @@
     - **Cisco Unified Communications Manager (CUCM) Cross-Site Scripting (`cisco-sa-cucm-xss-5mQn2U5z`)**: **CVE-2026-76419** (CVSS Base Score 6.1) affecting web-based administrative consoles (`cisco-sa-voice-hardening-twgbH9e3`).
     - **Cisco Identity Services Engine (ISE) Authorization Bypass (`cisco-sa-hardening-ise-XU5EwX5T`)**: **CVE-2026-20241** (CVSS Base Score 5.3, `CWE-285`) affecting internal certificate management services and administrative controls.
     - **Cisco End-of-Year Vulnerability Publication Freeze Notice (`cisco-sa-notice-I8z3n6lK`)**: Cisco PSIRT officially confirmed that following the November 4, 2026 batch, **no further security hardening advisories** will be published for the remainder of calendar year 2026. The next scheduled cycle for security-hardened releases is slated for **January 20, 2027**, establishing a fixed vulnerability freeze baseline for enterprise change control.
+  - **Additional November 2026 CISA KEV Additions (Cross-Vendor Tracking)**:
+    - **Google Chromium / Chrome (`CVE-2026-125350`, CVSS 8.8 - High / Actively Exploited)**: Use-After-Free (UAF) in XML/XSLT processing allowing sandboxed remote code execution via crafted pages; patched in **Chrome 157 (`157.0.8103.50/.51`)** (8th Chrome zero-day in 2026). Mandatory verification across `Plugins`, `chrome tab and bar`, and desktop workstations.
+    - **Microsoft Outlook (`CVE-2026-124194`)**: Missing user-interaction / spoofing vulnerability enabling NTLMv2 hash disclosure and user impersonation.
+    - **Check Point Gaia OS (`CVE-2026-123039`)**: Incorrect permission assignment in DynamicCLI daemon enabling local privilege escalation to root.
+    - **Barracuda Networks ESG (`CVE-2026-116606`, `CVE-2026-111560`)**: Critical authentication bypass and command injection chain leading to root compromise.
+    - **IBM Aspera Faspex (`CVE-2026-123218`)**: Incorrect authorization flaw leading to privilege escalation.
 - **CSAF 2.0/3.0 JSON Feeds**: Automated parsing of Common Security Advisory Framework machine-readable feeds to pinpoint first-fixed software versions.
 - **DefectDojo v2/v3 Aggregation**: Automated vulnerability deduplication, SLA breach alerting, and CVE tracking across scanned subnets.
 - **NetBird Zero-Trust Network Access (`netbirdio/netbird`)**: Extend the C# security monitor to enforce WireGuard-based endpoint posture verification:
@@ -105,7 +111,7 @@ Ingest and prioritize critical event IDs mapped to MITRE ATT&CK techniques:
 | **Event ID 25** | Process Tampering | **T1055** (Process Hollowing) | External modification of process memory sections or image headers. |
 
 ### Automated Remediation & Scanner Orchestration
-Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, and `fix_event_viewer_issues.ps1`) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through November 14, 2026 11:32 PM with zero malware detections and 100% clean logs across 24h), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access:
+Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, and `fix_event_viewer_issues.ps1`) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through November 17, 2026 02:32 AM with 598 active processes inspected, 22 persistence/autostart locations audited, zero malware detections, and 100% clean logs), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access:
 ```powershell
 # Automated Sysmon & McAfee Alert Triage Pipeline
 $Alerts = Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Sysmon/Operational'; ID=1,3,10} -MaxEvents 50
@@ -128,6 +134,7 @@ foreach ($Event in $Alerts) {
 - **Unified Kernel Images (UKIs)**: Combines kernel, initrd, and UEFI stub into a single cryptographically signed PE binary, providing an unbroken hardware root-of-trust during Secure Boot.
 - **Enterprise Network & Storage**: NetworkManager 1.52 with native IPsec IPv6 subnet-to-subnet peering and encrypted RPC over TLS for NFS filesystems.
 - **Podman 5.4+ Multi-Architecture Builds**: Single-command multi-arch image compilation (`podman build --platform linux/amd64,linux/arm64`) with streamlined OCI layer generation.
+- **RHEL 10 Image Mode (`bootc`) & Post-Quantum Cryptography (PQC)**: Built on the Linux 6.12 kernel lineage, **Image Mode for RHEL** builds, distributes, and updates the entire operating system (kernel through systemd) as an immutable OCI container image via `bootc`, eliminating configuration drift across bare-metal, VM, and cloud nodes. Native OpenSSL integration embeds NIST-approved quantum-resistant algorithms (**ML-KEM** key encapsulation and PQC signature suites) to mitigate "harvest now, decrypt later" attacks.
 - **Container Supply Chain & CISA KEV Vulnerability Auditing**: In response to **CVE-2026-123158 ("SSHole")**, RHCSA environments enforce baseline image inspection. Podman and container builds utilizing `musl libc` (such as Alpine Linux) must verify OpenSSH is patched to 10.6p2+, ensure `PasswordAuthentication no` is explicitly set in `/etc/ssh/sshd_config`, or standardize on glibc/PAM-backed base images (e.g. `ubi9-minimal` / `ubi10-micro`).
 
 ### The Podman 5 Quadlets & Modern Networking Paradigm
@@ -240,7 +247,7 @@ Supplement the Cloud Practitioner markdown study guides with production-grade Te
 
 ---
 
-## 5. Reverse Engineering & Binary Analysis: REA & Ghidra 11.3
+## 5. Reverse Engineering & Binary Analysis: REA & Ghidra 11.4 / 12.0
 
 ### The REA Architecture (`G:\My Drive\Antigravity\Projects\REA`)
 The `REA` project serves as the centralized disassembler, decompiler, and binary inspection hub.
@@ -256,9 +263,9 @@ flowchart TD
     GhidraSuite --> TargetMod[Modding / Target Integration: Ninja Gaiden, Tekken 8, Naraka]
 ```
 
-### Ghidra 11.3 & Tooling Innovations
+### Ghidra 11.4 / 12.0 & Tooling Innovations
 1. **PyGhidra (Official CPython 3 Integration)**:
-   - Employs native Python 3 scripting via JPype (originally developed by DoD Cyber Crime Center - DC3 as *Pyhidra*), eliminating legacy Jython 2.7 restrictions and enabling direct integration with modern packages (`numpy`, `capstone`, `pefile`, `z3-solver`).
+   - **Ghidra 11.4 / 12.0 Baseline**: Mandates JDK 21+ with enhanced decompiler/debugger engines and native Python 3 scripting via JPype (originally developed by DoD Cyber Crime Center - DC3 as *Pyhidra*), eliminating legacy Jython 2.7 restrictions and enabling direct integration with modern packages (`numpy`, `capstone`, `pefile`, `z3-solver`).
    - Includes both an interactive GUI CPython plugin and the `./support/pyghidra` CLI wrapper for automated headless analysis.
 2. **JIT-Accelerated P-Code Emulator (`JitPcodeEmulator`)**:
    - Standard P-code interpretation is slow during heavy unpacking, deobfuscation, and crypto loops.
@@ -506,6 +513,10 @@ The `openshift` repository is an offline-capable, interactive platform engineeri
   - **Container Supply Chain & KEV Defense (CVE-2026-123158 "SSHole")**: Automated cluster-wide admission checks via OpenShift Kyverno / OPA Gatekeeper auditing deployed Alpine/musl-based container pods to ensure OpenSSH 10.6p2+ compliance or disabling of password authentication.
   - **Cloud-Native Tooling Updates**: OpenShift Service Mesh 3.1 (Istio 1.26 + Kiali 2.11), OpenShift GitOps (Argo CD & Argo Rollouts), OpenShift Serverless 1.36 (Knative 1.16).
   - **Multi-Part OCI/GCS Upload**: Native support for large OCI artifacts and model weight distribution without HTTP buffer timeouts.
+- **OpenShift 4.20 (EUS — Kubernetes 1.33 & CRI-O 1.33)**:
+  - **Post-Quantum Cryptography (PQC) Control-Plane TLS**: Introduces `X25519MLKEM768` hybrid key exchange (via Go 1.24) securing internal TLS communication across API server, kubelet, and scheduler channels against "harvest now, decrypt later" threats.
+  - **OVN-Kubernetes Native BGP (`FRR-K8s`) & EVPN Support**: Integrates FRRouting 10+ via `FRRConfiguration` CRDs in `openshift-frr-k8s`, enabling Ethernet VPN (EVPN) extensions for Primary Cluster User-Defined Networks (`P-CUDNs`) with both **MAC-VRF** (L2 stretching for VM live migration) and **IP-VRF** (L3 tenant routing) over single VXLAN encapsulation (eliminating Geneve-in-VXLAN double encapsulation).
+  - **GA Kubernetes Gateway API & AI Orchestration**: Native Ingress Operator lifecycle support for `GatewayClass`, `Gateway`, `HTTPRoute`, `GRPCRoute`, and `ReferenceGrant` (`gateway.networking.k8s.io/v1`), native Sidecar containers GA (`initContainers` with `restartPolicy: Always`), and `LeaderWorkerSet` GA + Gateway API Inference Extension for distributed AI serving.
 
 ```mermaid
 flowchart TD
@@ -916,11 +927,11 @@ The project provides a comprehensive PowerShell test suite enforcing pre-flight 
 ## 11. OpenSource: Enterprise Open-Source Program Office (OSPO), Supply Chain Security & Upstream Governance Hub (`opensource`)
 
 ### Architectural Scope (`G:\My Drive\Antigravity\Projects\opensource`)
-The **`opensource`** project serves as the centralized Open-Source Program Office (OSPO), software supply chain security control plane, and upstream contribution pipeline across the entire Antigravity 75-project ecosystem. It establishes standards-based governance for license compliance, automated Software Bill of Materials (SBOM) generation, OpenSSF Scorecard posture checks, SLSA Level 3 build provenance, and automated upstream fork synchronization.
+The **`opensource`** project serves as the centralized Open-Source Program Office (OSPO), software supply chain security control plane, and upstream contribution pipeline across the entire Antigravity 79-project ecosystem. It establishes standards-based governance for license compliance, automated Software Bill of Materials (SBOM) generation, OpenSSF Scorecard posture checks, SLSA Level 3 build provenance, and automated upstream fork synchronization.
 
 ```mermaid
 flowchart TD
-    Portfolio[Antigravity 75-Project Portfolio] --> Scanner[OSPO Compliance Scanner: ospo_governance.py]
+    Portfolio[Antigravity 79-Project Portfolio] --> Scanner[OSPO Compliance Scanner: ospo_governance.py]
     Scanner --> SBOM[Automated SBOM Generator: CycloneDX 1.6 & SPDX 3.0]
     Scanner --> License[OpenChain ISO/IEC 5230 Engine: License Compliance & Compatibility]
     Scanner --> OpenSSF[OpenSSF Scorecard & SLSA L3 Supply Chain Verifier]
@@ -1022,7 +1033,7 @@ foreach ($Fork in $Forks) {
 ### Cross-Portfolio Synergy
 - **With `deploy`**: Exports consolidated portfolio SBOM telemetry into `deploy/PROJECT_CATALOG.json` and health scans.
 - **With `vulnerability management`**: Feeds dependency graphs directly into CVE vulnerability matching engines and Cisco openvuln-mcp.
-- **With `ai slop`**: Pairs licensing hygiene with anti-slop code quality audits across all 75 projects.
+- **With `ai slop`**: Pairs licensing hygiene with anti-slop code quality audits across all 79 projects.
 - **With `Github Portfolio`**: Powers public GitHub contribution graphs and open-source project badges.
 
 ---

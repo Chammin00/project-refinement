@@ -30,6 +30,7 @@
 - [My Social Media](file:///G:/My%20Drive/Antigravity/Projects/My%20Social%20Media)
 - [index folder](file:///G:/My%20Drive/Antigravity/Projects/index%20folder)
 - [onedrive cleanup](file:///G:/My%20Drive/Antigravity/Projects/onedrive%20cleanup)
+- [resume](file:///G:/My%20Drive/Antigravity/Projects/resume)
 
 ---
 
@@ -76,7 +77,7 @@ import os, json, hashlib
 - **Automated Token Lifecycle**: Ensure `token.json` refreshes automatically in the background using `google.auth.transport.requests.Request()`. If refresh fails, fall back to headless loopback authentication without stalling background tasks.
 - **SHA-256 Pre-Flight Deduplication**: Compute hashes of all local and remote files before issuing Google Drive API write calls, eliminating redundant cloud storage usage and conserving quota.
 - **Choogle Automated Search Sync (`Sync-ChoogleProjects.ps1`)**:
-  - Automatically indexes all 78 active projects (including `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on November 14, 2026 at 11:05:16 PM).
+  - Automatically indexes all **79 active projects** (including newly added `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on November 16, 2026 at 11:05:02 PM).
 
 ---
 
@@ -90,7 +91,7 @@ Enhance `automate.bat` and `run_sentinel_silent.vbs` to execute at 6:00 AM daily
 4. **Storage & Cloud Health**: Monitor available space across Drive C: (OS), Drive F: (SSD), and Drive G: (Google Drive).
 5. **Passive Income & Media Pipeline**:
    - Ingest completed YouTube gaming clips from `modules/youtube/` (`ready_for_upload` vs `uploaded`), review clip rotations across TEKKEN 8, Beast of Reincarnation, and Sonic Racing.
-   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and newly staged **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `sfx_manager.py`, `audio_rotation...`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, and triggering automated conversion into both 9:16 Shorts and 16:9 longform montages across TEKKEN 8, Beast of Reincarnation, and Sonic Racing. **Production Status**: Actively executed and verified in production on **November 14-15, 2026**, with automated audio rotation modules and ready-for-upload batching.
+   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and newly staged **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `sfx_manager.py`, `audio_rotation...`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, and triggering automated conversion into both 9:16 Shorts and 16:9 longform montages across TEKKEN 8, Beast of Reincarnation, and Sonic Racing. **Production Status**: Actively executed and verified in production through **November 17, 2026 02:27 AM**, with automated audio rotation modules and ready-for-upload batching.
    - Monitor the 12-episode scheduled publishing queue from [youtube channels](file:///G:/My%20Drive/Antigravity/Projects/youtube%20channels) (`Invoke-AutoUploadQueue.ps1`, `youtube_api_upload.py`).
    - Audit new victory boss recordings saved by [Record my Gameplay](file:///G:/My%20Drive/Antigravity/Projects/Record%20my%20Gameplay) ready for short-form conversion.
 6. **Quantitative Market & Trading Setups**: Ingest Carter Volatility Squeeze coiling alerts and Wyckoff Spring setups from `stock watch/screener/scanner.py` (`deploy/coiling_watchlist.json`), alongside active portfolio P&L, win rates, and daily upskill logs from `stock Bot traders/knowledge_base/daily_upskill_log.md`.
@@ -227,7 +228,7 @@ flowchart TD
 3. **Accessibility, Performance & SEO Discipline**:
    - **`prefers-reduced-motion`**: Automatically disables particle backgrounds and smooth scrolling if reduced motion is requested by the OS.
    - **Structured Data**: Enriches `index.html` with schema.org `Person` and `ProfilePage` JSON-LD for rich snippet rendering on Google and LinkedIn crawlers.
-   - **ATS-Optimized Resumes**: Complements visual PDF downloads (`Chase_Hamilton_Linux_Storage_Resume.pdf`, `Security_Resume.pdf`, `Master_Resume.pdf`) with single-click ATS markdown/plain-text clipboard copying.
+   - **ATS-Optimized Resumes & Dedicated `resume` Hub (`G:\My Drive\Antigravity\Projects\resume`)**: Synchronizes `Chase_Hamilton_Master_Resume.md`, tailored HTML/PDF editions (`Chase_Hamilton_Linux_Storage_Resume.pdf`, `Chase_Hamilton_Security_Resume.pdf`, `Chase_Hamilton_Master_Resume.pdf`, and `2026 Resume-Cham V2.pdf`) across `resume`, `portfolio`, and `Github Portfolio` with single-click ATS markdown/plain-text clipboard copying.
 
 ---
 
@@ -530,6 +531,7 @@ Engineered strictly under Google Chrome Manifest V3 standards:
 Leverages modern Chrome 140+ side panel capabilities:
 - **Global Click-to-Open**: Configured via `chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })`.
 - **Docking Awareness & Lifecycle Events**: Dynamically queries `chrome.sidePanel.getLayout()` to detect whether the user docked the side panel to the left or right of the screen, adjusting flex layouts, breadcrumb alignments, and chevron collapse directions automatically. Integrates `chrome.sidePanel.close()` for programmatic dismissal and binds `chrome.sidePanel.onOpened` / `chrome.sidePanel.onClosed` lifecycle hooks to suspend expensive background timers and resume telemetry streams seamlessly.
+- **Chrome 157 Security & WebGPU SLM Standards (Nov 2026)**: Enforce minimum browser baseline **Chrome 157 (`157.0.8103.50/.51+`)** patching actively exploited XML/XSLT Use-After-Free zero-day **CVE-2026-125350** (CISA KEV); adhere to Chrome Web Store host-permission scrutiny (`activeTab` + proxy workers instead of broad host permissions or client-bundled API keys); and leverage **WebGPU** inside side panels/offscreen workers for zero-latency local SLM inference.
 
 #### 3. Programmatic Tab Grouping & Domain Categorization (`chrome.tabGroups`)
 Automates tab organization into clean, color-coded functional clusters:
@@ -839,3 +841,20 @@ Invoke-OneDriveClipLifecycle -Action ArchiveUploaded -ArchiveRoot "F:\HighlightA
 - **With `Record my Gameplay`**: Automatically manages recording outputs from OBS Studio and NVIDIA ShadowPlay without manual file management.
 - **With `youtube shorts edit for gaming` & `automate my day`**: Reclaims disk space once videos are reframed, subtitled, and uploaded.
 - **With `deploy`**: Monitored as part of the ecosystem storage baseline in `health_status.json`.
+
+---
+
+## 16. Career & Resume Engineering Hub (`resume`)
+
+### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\resume`)
+The newly created **`resume`** project centralizes Chase R. Hamilton's ATS-optimized master resume, role-tailored HTML templates, and compiled PDF deliverables into a unified single source of truth synchronized across `portfolio` and `Github Portfolio`:
+- **Master Source (`Chase_Hamilton_Master_Resume.md`)**: Canonical Markdown baseline detailing 12+ years of enterprise SAN/NAS storage reliability (>99.99% uptime at Dell Technologies), 21,000+ global endpoint deployments (Defense Healthcare), cybersecurity compliance, OpenShift/RHEL, and FastMCP/Ollama AI engineering.
+- **Role-Targeted HTML & PDF Artifacts**:
+  - `Chase_Hamilton_Resume.html` & `Chase_Hamilton_Master_Resume.pdf` (Full-stack infrastructure & AI systems edition).
+  - `Tailored_Resume_Linux_Storage.html` & `Chase_Hamilton_Linux_Storage_Resume.pdf` (RHEL 9/10, Dell EMC PowerStore/NetApp SAN/NAS, OpenShift storage track).
+  - `Tailored_Resume_Infra_Security.html` & `Chase_Hamilton_Security_Resume.pdf` (CVE triage, NIST CSF, Sysmon, Aegis-AI zero-trust track).
+  - `2026 Resume-Cham V2.pdf` (Streamlined executive 2026 edition synced directly into `portfolio` and `Github Portfolio`).
+
+### Immediate Frontier Upgrades
+- **Automated Markdown-to-HTML/PDF Build Pipeline**: Add a PowerShell/Python `uv` script using WeasyPrint or Playwright headless Chromium (`page.pdf()`) to regenerate all tailored HTML and PDF deliverables deterministically whenever `Chase_Hamilton_Master_Resume.md` is updated, syncing hashes automatically to `portfolio` and `Github Portfolio`.
+- **JSON-LD & ATS Keyword Verification**: Validate exported PDFs via `docling` / `pdftotext` to guarantee 100% ATS text-extraction fidelity (zero multi-column interleaving) and sync structured career metrics with `Github Portfolio/projects.json`.
