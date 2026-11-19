@@ -77,7 +77,7 @@ import os, json, hashlib
 - **Automated Token Lifecycle**: Ensure `token.json` refreshes automatically in the background using `google.auth.transport.requests.Request()`. If refresh fails, fall back to headless loopback authentication without stalling background tasks.
 - **SHA-256 Pre-Flight Deduplication**: Compute hashes of all local and remote files before issuing Google Drive API write calls, eliminating redundant cloud storage usage and conserving quota.
 - **Choogle Automated Search Sync (`Sync-ChoogleProjects.ps1`)**:
-  - Automatically indexes all **79 active projects** (including newly added `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on November 16, 2026 at 11:05:02 PM).
+  - Automatically indexes all **80 active projects** (including newly detected `Popular Github Projects`, `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on November 17, 2026 at 11:05:02 PM).
 
 ---
 
@@ -91,7 +91,7 @@ Enhance `automate.bat` and `run_sentinel_silent.vbs` to execute at 6:00 AM daily
 4. **Storage & Cloud Health**: Monitor available space across Drive C: (OS), Drive F: (SSD), and Drive G: (Google Drive).
 5. **Passive Income & Media Pipeline**:
    - Ingest completed YouTube gaming clips from `modules/youtube/` (`ready_for_upload` vs `uploaded`), review clip rotations across TEKKEN 8, Beast of Reincarnation, and Sonic Racing.
-   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and newly staged **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `sfx_manager.py`, `audio_rotation...`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, and triggering automated conversion into both 9:16 Shorts and 16:9 longform montages across TEKKEN 8, Beast of Reincarnation, and Sonic Racing. **Production Status**: Actively executed and verified in production through **November 17, 2026 02:27 AM**, with automated audio rotation modules and ready-for-upload batching.
+   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `sfx_manager.py`, `sound_randomizer.py`, `audio_rotation.json`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, routing 32+ authentic Marshall Law & character soundbytes (FIFO non-repeating rotation), and pacing uploads (10/day) across TEKKEN 8, Beast of Reincarnation, and Sonic Racing (shorts + 1440p60 longform compilations). **Production Status**: Actively executed and verified in production through **November 18, 2026 03:00 AM**.
    - Monitor the 12-episode scheduled publishing queue from [youtube channels](file:///G:/My%20Drive/Antigravity/Projects/youtube%20channels) (`Invoke-AutoUploadQueue.ps1`, `youtube_api_upload.py`).
    - Audit new victory boss recordings saved by [Record my Gameplay](file:///G:/My%20Drive/Antigravity/Projects/Record%20my%20Gameplay) ready for short-form conversion.
 6. **Quantitative Market & Trading Setups**: Ingest Carter Volatility Squeeze coiling alerts and Wyckoff Spring setups from `stock watch/screener/scanner.py` (`deploy/coiling_watchlist.json`), alongside active portfolio P&L, win rates, and daily upskill logs from `stock Bot traders/knowledge_base/daily_upskill_log.md`.
@@ -142,8 +142,9 @@ The **`improve gaming pc performance`** project provides an automated, real-time
 - Automatically invokes the tuning engine (`Invoke-PBZOptimization.ps1`) without requiring manual user intervention or desktop context switching.
 
 #### 2. Automated PBZ & System Optimization Suite (`Invoke-PBZOptimization.ps1`)
-- **Ultimate Performance Power Plan Lock**:
-  - Dynamically activates Windows Ultimate Performance power scheme (`$UltimatePlanGuid = "ce71df13-30de-418e-9c7c-7afb0a84dc89"`), unparking all 8 Performance cores (P-cores) and 16 Efficient cores (E-cores) and locking CPU core clock frequencies against thermal downclocking.
+- **Factory Acer Predator Power Plan Lock (Thermal-Safe Tuning, Nov 18, 2026)**:
+  - Updated `Invoke-PBZOptimization.ps1` to enforce the factory-tuned Acer Predator power plan (`$AcerPlanGuid = "02e54963-3a6d-4756-9cca-a42174041e63"`) instead of Windows Ultimate Performance (`100%` minimum processor state), preventing mobile i9-13900HX thermal throttling and power trip-offs during sustained Unreal Engine 5 sessions.
+  - Verified in production (`Invoke-PBZOptimization.ps1` updated `2026-11-18 03:02 AM`), keeping P-core/E-core boost headroom responsive while avoiding thermal trip-offs.
 - **Discrete RTX 4080 GPU Preference Registry Enforcement**:
   - Automatically queries and registers the high-performance GPU preference (`GpuPreference=2;`) in the Windows DirectX Registry (`HKCU:\Software\Microsoft\DirectX\UserGpuPreferences`) for all detected game binaries (`F:\SteamLibrary\steamapps\common\PBZ\platform\steam\PBZ.exe` and `PBZ.exe`), bypassing hybrid graphics switching latency:
   ```powershell
@@ -380,7 +381,7 @@ flowchart TD
 ## 9. Anti-Slop Craftsman: Automated Code Quality & Project Integrity Guardrails (`ai slop`)
 
 ### Philosophy & Mission Overview (`G:\My Drive\Antigravity\Projects\ai slop`)
-The explosion of generative AI tooling has led to an influx of "AI slop"—low-effort code generation, superficial emoji asset flips, repetitive purple prose documentation, and broken touch interfaces that dilute software craftsmanship. The `ai slop` repository acts as an automated quality inspector and anti-slop guardian across all 62 projects in `G:\My Drive\Antigravity\Projects`.
+The explosion of generative AI tooling has led to an influx of "AI slop"—low-effort code generation, superficial emoji asset flips, repetitive purple prose documentation, and broken touch interfaces that dilute software craftsmanship. The `ai slop` repository acts as an automated quality inspector and anti-slop guardian across all **80 projects** in `G:\My Drive\Antigravity\Projects`, reinforced by the November 17 `aws-enterprise-baseline.css` rollout (Clean Matte GitHub Primer & AWS Dark Console `#090d16`, zero AI gloss/sweep sheens, Fontshare ITF `Clash Display` + `Satoshi` + `Cabinet Grotesk`, WCAG AAA `>=7:1`).
 
 ```mermaid
 flowchart TD
@@ -531,7 +532,7 @@ Engineered strictly under Google Chrome Manifest V3 standards:
 Leverages modern Chrome 140+ side panel capabilities:
 - **Global Click-to-Open**: Configured via `chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })`.
 - **Docking Awareness & Lifecycle Events**: Dynamically queries `chrome.sidePanel.getLayout()` to detect whether the user docked the side panel to the left or right of the screen, adjusting flex layouts, breadcrumb alignments, and chevron collapse directions automatically. Integrates `chrome.sidePanel.close()` for programmatic dismissal and binds `chrome.sidePanel.onOpened` / `chrome.sidePanel.onClosed` lifecycle hooks to suspend expensive background timers and resume telemetry streams seamlessly.
-- **Chrome 157 Security & WebGPU SLM Standards (Nov 2026)**: Enforce minimum browser baseline **Chrome 157 (`157.0.8103.50/.51+`)** patching actively exploited XML/XSLT Use-After-Free zero-day **CVE-2026-125350** (CISA KEV); adhere to Chrome Web Store host-permission scrutiny (`activeTab` + proxy workers instead of broad host permissions or client-bundled API keys); and leverage **WebGPU** inside side panels/offscreen workers for zero-latency local SLM inference.
+- **Chrome 157 Security & WebGPU SLM Standards (Nov 2026)**: Enforce minimum browser baseline **Chrome 157 (`157.0.8103.50/.51+`, 200+ security fixes)** patching actively exploited XML/XSLT Use-After-Free zero-day **CVE-2026-125350** (CISA KEV); adhere to Chrome Web Store host-permission scrutiny (`activeTab` + proxy workers instead of broad host permissions or client-bundled API keys); and leverage **WebGPU** (including Chrome 157 subgroup size controls) inside side panels/offscreen workers for zero-latency local SLM inference.
 
 #### 3. Programmatic Tab Grouping & Domain Categorization (`chrome.tabGroups`)
 Automates tab organization into clean, color-coded functional clusters:

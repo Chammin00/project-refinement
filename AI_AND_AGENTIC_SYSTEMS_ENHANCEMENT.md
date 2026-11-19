@@ -37,6 +37,10 @@
     - **SGLang**: Direct native radix attention serving of NVFP4 model checkpoints with dynamic multi-tier cache memory allocation.
 - **ModelOpt Quantization-Aware Distillation (QAD)**:
   - Eliminates accuracy cliffs on 4-bit student models by minimizing KL-divergence against frozen BF16 teacher activations during fine-tuning, preserving complex code syntax and multi-turn reasoning abilities.
+- **vLLM Blackwell & MoE Backend Standardization**:
+  - `VLLM_NVFP4_GEMM_BACKEND` is deprecated in favor of explicit `--linear-backend` CLI flags (`cutlass`, `flashinfer_cutedsl`, `flashinfer_trtllm`, `marlin`), paired with `--moe-backend flashinfer_moe_ep_cutedsl` (`flashinfer.moe_ep` CuTe-DSL MoE Expert Parallelism kernels) for SM12x/Blackwell W4A4/W4A16 MoE models and `--load-format dummy` alignment.
+  - **ModelOpt Triton Compatibility**: Upstream `NVFP4_DEFAULT_CFG` fake-quantization resolved late-2026 Triton block-pointer `NotImplementedError` bugs; TensorRT-LLM adds `TRTLLM_FLASHINFER_WORKSPACE_PER_PROCESS` for isolated sparse MLA + NVFP4 KV-cache warmup.
+- **Unsloth Dynamic V3.1 Quantization (`r/LocalLLaMA` Nov 2026)**: Dynamic selective-precision GGUF quantization for frontier open-weight coding/reasoning models (e.g. Qwen3.8-27B, DeepSeek-V4.1-Flash), yielding +5%–15% agentic benchmark gains (Terminal-Bench / DeepSWE) with reduced token and VRAM footprints on 12 GB–24 GB GPUs.
 - **Cold-Page Compression & RoPE Precision Control**:
   - TensorRT-LLM integrates memory-saving cold-page compression for KV caches and granular Rotary Position Embedding (RoPE) precision controls. For code models, configure `skip_rope_quantization=True` or `2FP4` (`nvfp4_residual_dim=64`) to protect mathematical precision across 16k–32k context lengths.
 - **Speculative Decoding with EAGLE-3, DFlash2 & MTP Draft Heads**:
@@ -168,7 +172,7 @@ def parse_python_module(filepath: Path):
 ## 2. Personal Assistant: Context-Aware Desktop Agent
 
 ### Speech & Voice Loop Upgrades (Reddit `r/LocalLLaMA` & GitHub)
-- **STT (Speech-to-Text)**: **Faster-Whisper Turbo** (`SYSTRAN/faster-whisper` using CTranslate2 with `large-v3-turbo`). Delivers 4x faster transcription than vanilla Whisper with less than 1.5 GB VRAM footprint.
+- **STT (Speech-to-Text)**: **Faster-Whisper Turbo** (`SYSTRAN/faster-whisper` using CTranslate2 with `large-v3-turbo`, <1.5 GB VRAM, 4x faster than vanilla Whisper) and **Fluid-Speech-Pro** (`FluidVoice-Labs`, Nov 2026 sub-1B ~600MB Parakeet-TDT-based open ASR supporting 25 European languages with native auto-language detection and high noise resilience).
 - **TTS (Text-to-Speech)**: **Kokoro-82M v1.0 ONNX** (`hexgrad/Kokoro-82M` & `thewh1teagle/kokoro-onnx`).
   - Created by *hexgrad* (Apache 2.0 license), Kokoro-82M v1.0 utilizes StyleTTS 2 architecture with an ISTFTNet vocoder and the custom `misaki` G2P (Grapheme-to-Phoneme) engine.
   - Supports versatile American/British/International voice presets (`af_sarah`, `am_adam`, `bf_emma`, `bm_george`) and seamless voice blending via linear style tensor interpolation:
@@ -424,7 +428,7 @@ flowchart TD
    - *Mitigation*: **gVisor (`runsc`)** user-space virtual kernel or **Firecracker MicroVMs**, guaranteeing zero direct syscall execution on the host kernel.
 2. **Indirect Prompt Injection & Tool Weaponization**:
    - Hidden instructions inside untrusted documents hijacking agent tool loops.
-   - *Mitigation*: Prohibit raw shell execution. Enforce strictly-typed Pydantic/JSON Schemas with path bounds checking; mandate cryptographic approval for state-altering actions.
+   - *Mitigation (OWASP Nov 2026 Agentic Defense)*: Prohibit raw shell execution. Enforce strictly-typed Pydantic/JSON Schemas with path bounds checking, strict least-privilege read/write capability scoping (eliminating broad tenant/FS access), and mandatory cryptographic approval for state-altering actions.
 3. **Covert Side-Channels & DNS Egress Tunneling**:
    - Exfiltrating host secrets encoded into DNS queries (`exfil.<base64>.c2.net`).
    - *Mitigation*: Ephemeral network namespaces with default-deny egress. DNS routed exclusively through an inspection proxy dropping high-entropy queries.
@@ -483,7 +487,7 @@ flowchart TD
   - Supports Dynamic Client Registration (DCR), cryptographic identity assertions, and OAuth 2.1 loopback proxies to eliminate hardcoded secrets and enforce role-based access control (RBAC).
 - **FastMCP v4.2 ("Mad Skills") / Python SDK v2 Integration (`PrefectHQ/fastmcp`)**:
   - **SEP-2640 Skills over MCP**: Standardizes server-served agent skills (`SKILL.md` + scripts/assets) using `SkillsExtension` (`skills/list`, `skills/get`) alongside `SkillProvider`, `SkillsDirectoryProvider`, and `SkillCatalogProvider`, exposing `skill://` resources dynamically while maintaining backward compatibility with FastMCP 4.1 (`list_skill_resources()`).
-  - **Google ADK 3-Legged OAuth for Agent-to-Agent (A2A)** & **Unreal Engine 5.8 Official Native Unreal MCP Server**: Supports secure A2A token delegation alongside first-party UE 5.8 Editor MCP tool orchestration inside `game-studio-mcp`.
+  - **Google ADK 3-Legged OAuth for Agent-to-Agent (A2A)**, **Unreal Engine 5.8 Official Native Unreal MCP Server**, **`Godot-MCP`**, & **`GhidrAssistMCP`**: Supports secure A2A token delegation alongside first-party UE 5.8 Editor MCP tool orchestration, Godot 4.7 scene manipulation, and Ghidra 12.2 binary decompilation/xref inspection via FastMCP.
   - Standardizing custom MCP servers on FastMCP v4.2 utilizing `TasksExtension` (`fastmcp[tasks]`, conforming to `io.modelcontextprotocol/tasks`), Redis-backed distributed task persistence with custom credential providers, `CurrentContext` dependency injection, and native background task decorators:
 ```python
 # Modern FastMCP v4 Server with Background Tasks (SEP-1686) & Context Dependency Injection

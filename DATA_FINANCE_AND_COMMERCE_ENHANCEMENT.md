@@ -277,7 +277,7 @@ Eliminate arbitrary lot sizing by enforcing strict dollar-risk to technical inva
   client.submit_order(bracket_limit_order)
   ```
 - **Paper-to-Live Canary Execution & Slippage Telemetry (`r/algotrading` Nov 2026 Frontier)**:
-  - Paper trading APIs conceal real-world partial fills, spread-crossing latency, and WebSocket disconnect recovery. Before scaling capital, enforce a **1-share / micro-contract live canary phase** to validate order-lifecycle state machines, heartbeat reconnects, and live slippage deltas.
+  - Paper trading APIs conceal real-world partial fills, spread-crossing latency, and WebSocket disconnect recovery, while 1-minute bar backtests frequently suffer Sharpe-ratio collapse against true tick-level fills and Ramsey-theory noise overfitting (`r/algotrading` Nov 2026). Before scaling capital, cross-validate winning strategies on tick-granularity data and enforce a **1-share / micro-contract live canary phase** to validate order-lifecycle state machines, heartbeat reconnects, and live slippage deltas.
   - *Note*: Live execution frequently suffers from spread crossing costs, partial fills, and queue delays that synthetic backtests ignore (`r/algotrading` frontier).
   - Implement real-time slippage telemetry in `broker/alpaca_broker.py`:
   ```python
@@ -351,7 +351,7 @@ flowchart TD
    - **MCP Baseline 2.0 Integration**: Includes `mcp-baseline.js` (v2.0) and `mcp-registry.json` for live MCP telemetry (`Ctrl+M`) and in-app visual element inspection and hot-patching (`Ctrl+E`).
 6. **Automated Daily Upskilling Sentinel (`scripts/daily_upskill.py`)**:
    - Continuously monitors algorithmic trading research, broker API deprecations, and market micro-structure updates.
-   - Persists structured lessons, parameter backtest sweeps, and algorithmic evolutions into `knowledge_base/daily_upskill_log.md` (verified active on November 16, 2026 17:01 post-market settlement: `$100,045.54` total equity, `AAPL` +2.64% unrealized P&L, `CHOP_BEAR` regime detection, 0.0/100 risk score, 0/3 PDT rolling day trades under FINRA 4210, and 100% SEC 15c3-5 risk gate compliance).
+   - Persists structured lessons, parameter backtest sweeps, and algorithmic evolutions into `knowledge_base/daily_upskill_log.md` (verified active on November 17, 2026 17:00 post-market settlement: `$100,029.19` total equity, `AAPL` 5.0 units +1.69% unrealized P&L, `CHOP_BEAR` regime detection, 0.0/100 risk score, 0/3 PDT rolling day trades under FINRA 4210, and 100% SEC 15c3-5 risk gate compliance).
 
 ### Cross-Portfolio Synergy
 - **With `stock watch`**: Squeeze signals identified by `stock watch/screener/scanner.py` feed directly into `stock Bot traders/strategies/vector_screener.py` for automated trade sizing.
