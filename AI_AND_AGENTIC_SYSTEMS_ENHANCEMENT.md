@@ -37,10 +37,11 @@
     - **SGLang**: Direct native radix attention serving of NVFP4 model checkpoints with dynamic multi-tier cache memory allocation.
 - **ModelOpt Quantization-Aware Distillation (QAD)**:
   - Eliminates accuracy cliffs on 4-bit student models by minimizing KL-divergence against frozen BF16 teacher activations during fine-tuning, preserving complex code syntax and multi-turn reasoning abilities.
+- **TensorRT-LLM v1.4.x / Blackwell SM100 & SM103 (`TLLM_PRIMTS_WARM_WORKERS`, PrimTS Sparse MLA & NVFP4 Modeling V2)**: TensorRT-LLM expands explicit NVFP4 modeling V2 targets for GB300/SM103 (`GLM-5.2`, `MiniMax-M3` low-latency decode), pairs PrimTS native sparse MLA FMHA CuTe-DSL kernels on SM100 (B200/GB200), and exposes `TLLM_PRIMTS_WARM_WORKERS` alongside `TRTLLM_FLASHINFER_WORKSPACE_PER_PROCESS` to parallelize first-launch JIT CuTe-DSL compilation caches under strict MPI worker memory boundaries.
 - **vLLM Blackwell & MoE Backend Standardization**:
-  - `VLLM_NVFP4_GEMM_BACKEND` is deprecated in favor of explicit `--linear-backend` CLI flags (`cutlass`, `flashinfer_cutedsl`, `flashinfer_trtllm`, `marlin`), paired with `--moe-backend flashinfer_moe_ep_cutedsl` (`flashinfer.moe_ep` CuTe-DSL MoE Expert Parallelism kernels) for SM12x/Blackwell W4A4/W4A16 MoE models and `--load-format dummy` alignment.
-  - **ModelOpt Triton Compatibility**: Upstream `NVFP4_DEFAULT_CFG` fake-quantization resolved late-2026 Triton block-pointer `NotImplementedError` bugs; TensorRT-LLM adds `TRTLLM_FLASHINFER_WORKSPACE_PER_PROCESS` for isolated sparse MLA + NVFP4 KV-cache warmup.
-- **Unsloth Dynamic V3.1 Quantization (`r/LocalLLaMA` Nov 2026)**: Dynamic selective-precision GGUF quantization for frontier open-weight coding/reasoning models (e.g. Qwen3.8-27B, DeepSeek-V4.1-Flash), yielding +5%–15% agentic benchmark gains (Terminal-Bench / DeepSWE) with reduced token and VRAM footprints on 12 GB–24 GB GPUs.
+  - `VLLM_NVFP4_GEMM_BACKEND` is deprecated in favor of explicit `--linear-backend` CLI flags (`cutlass`, `flashinfer_cutedsl`, `flashinfer_trtllm`, `marlin`), paired with `--moe-backend flashinfer_moe_ep_cutedsl` (`flashinfer.moe_ep` CuTe-DSL MoE Expert Parallelism kernels) and `trtllm-gen` 4-bit GEMM/MoE backends with default KV block-size `64` and extensible KV caching enabled by default.
+  - **ModelOpt Triton Compatibility**: Upstream `NVFP4_DEFAULT_CFG` fake-quantization resolved late-2026 Triton block-pointer `NotImplementedError` bugs.
+- **Unsloth Dynamic V3.1 Quantization & OpenRouter HF Routing (`r/LocalLLaMA` Nov 2026)**: Dynamic selective-precision GGUF quantization for frontier open-weight coding/reasoning models (e.g. Qwen3.8-27B, DeepSeek-V4.1-Flash), yielding +5%–15% agentic benchmark gains (Terminal-Bench / DeepSWE) with reduced token and VRAM footprints on 12 GB–24 GB GPUs; Hugging Face Inference Providers increasingly route via OpenRouter for dynamic price/speed failover, while Google **Gemini 4** and **Omni Flash** multimodal models power browser side-panel agents.
 - **Cold-Page Compression & RoPE Precision Control**:
   - TensorRT-LLM integrates memory-saving cold-page compression for KV caches and granular Rotary Position Embedding (RoPE) precision controls. For code models, configure `skip_rope_quantization=True` or `2FP4` (`nvfp4_residual_dim=64`) to protect mathematical precision across 16k–32k context lengths.
 - **Speculative Decoding with EAGLE-3, DFlash2 & MTP Draft Heads**:
@@ -241,8 +242,8 @@ flowchart LR
 ```
 
 ### Technical Implementation Pillars
-1. **IBM Docling & Surya Document Parsing**:
-   - Ingest scanned receipts, PDF statements, and vendor invoices using IBM Docling (`docling-project/docling`) to extract markdown tables and key-value fields without column interleaving.
+1. **IBM Docling, `docling.rs` & `Granite-Docling` (258M VLM)**:
+   - Ingest scanned receipts, PDF statements, and vendor invoices using IBM Docling (`docling-project/docling`), native zero-PyTorch Rust **`docling.rs`** for low-memory layout/table extraction, or IBM's ultra-compact **Granite-Docling (258M VLM)** using *DocTags* structural markup (available in Ollama/HF) to extract markdown tables and key-value fields without column interleaving.
 2. **Pydantic v2 Validation Schemas**: Enforce strict cryptographic checksums, currency balance invariants, and transaction ID hashing:
    ```python
    from pydantic import BaseModel, Field, field_validator
@@ -317,8 +318,8 @@ flowchart TD
      - **Tandem Bridge Pipeline (`tandem_bridge.py`)**: Asynchronous Python bridge connecting Antigravity task dispatches to `http://127.0.0.1:11434` with streaming token callbacks, fallback retry logic, and structured JSON output enforcement.
      - **One-Click PowerShell Invoker (`Invoke-OllamaTandem.ps1`)**: Standardized cmdlet for invoking local reasoning passes with automatic model fallback (`antigravity-skills:latest` -> `qwen2.5-coder:14b` -> `llama3.2:latest`).
 2. **Dynamic Skill & Project Knowledge Compilation**:
-   - Automated ingestion pipeline via `sync_skills_to_ollama.py` auto-compiling over **636 KB of skills knowledge** (`skills_knowledge_base.json`) and **51 KB of project blueprints** (`projects_knowledge_base.json`) directly into a custom 86 KB `Modelfile` (`antigravity-skills:latest`), granting local models comprehensive situational awareness of all **79 workspace projects** without internet access.
-   - **FastMCP 4.2 SEP-2640 Skills Integration**: Expose `skills_directory.md` and workspace `SKILL.md` artifacts via FastMCP 4.2 `SkillsDirectoryProvider` (`skill://` resources) so local Ollama and cloud agents share identical skill definitions without manual synchronization drift.
+   - Automated ingestion pipeline via `sync_skills_to_ollama.py` auto-compiling over **636 KB of skills knowledge** (`skills_knowledge_base.json`) and **51 KB of project blueprints** (`projects_knowledge_base.json`) directly into a custom 86 KB `Modelfile` (`antigravity-skills:latest`, refreshed `2026-11-18 04:02`), granting local models comprehensive situational awareness of all **81 workspace projects** without internet access.
+   - **Agent Work Surfaces & Persistent Context (`claude-mem` / `mattpocock/skills` / FastMCP 4.2 SEP-2640)**: Adopt the mid-Nov 2026 GitHub "Agent Work Surfaces" pattern—pair **`thedotmack/claude-mem`** style cross-session activity compression (SQLite/Chroma) with FastMCP 4.2 `SkillsDirectoryProvider` (`skill://` resources) so local Ollama and cloud agents share identical skill definitions and persistent memory without session amnesia or manual drift.
 3. **Dedicated Ollama Model Context Protocol Server (`MCP/ollama-mcp`)**:
    - Deployed a standalone FastMCP Python server at `G:\My Drive\Antigravity\Projects\MCP\ollama-mcp` providing 6 specialized tools callable by any MCP client or Antigravity subagent:
      - `ollama_list_models`: Lists all locally pulled and compiled GGUF/Ollama models with parameter counts and quantization tags.
@@ -422,23 +423,26 @@ flowchart TD
     L5 --> SandboxedExec[Safe Execution or Automated Termination]
 ```
 
-### The 6 Critical AI Escape Vectors & Active Mitigations
-1. **Kernel Exploits & Namespace Breakouts**:
-   - AI generating native C/Python exploits attacking shared host Linux kernels (`io_uring`, dirty COW, `/proc` release agents).
+### The 7 Critical AI Escape Vectors & Active Mitigations
+1. **AI Gateway / Sandbox Escape & LLMjacking (`CVE-2026-40217` — BerriAI LiteLLM, CISA KEV Nov 18, 2026)**:
+   - Hand-rolled Python sandboxes (e.g. LiteLLM `/guardrails/test_custom_code` prior to `v1.83.11`) allow authenticated runtime bytecode manipulation and host RCE (chained with `CVE-2026-47101`/`47102`), enabling root container compromise and API key harvesting.
+   - *Mitigation*: Never use hand-rolled Python `eval`/`exec` sandboxes—enforce `RestrictedPython` / **gVisor (`runsc`)** / Firecracker MicroVMs, upgrade LiteLLM to **`v1.83.14-stable+`**, block `POST /guardrails/test_custom_code` at WAF/gateway, and rotate all provider keys on exposure.
+2. **Kernel Exploits & Namespace Breakouts**:
+   - AI generating native C/Python exploits attacking shared host Linux kernels (`io_uring`, dirty COW, `/proc` release agents, or unpatched TCP UAF `CVE-2026-98432`).
    - *Mitigation*: **gVisor (`runsc`)** user-space virtual kernel or **Firecracker MicroVMs**, guaranteeing zero direct syscall execution on the host kernel.
-2. **Indirect Prompt Injection & Tool Weaponization**:
+3. **Indirect Prompt Injection & Tool Weaponization**:
    - Hidden instructions inside untrusted documents hijacking agent tool loops.
-   - *Mitigation (OWASP Nov 2026 Agentic Defense)*: Prohibit raw shell execution. Enforce strictly-typed Pydantic/JSON Schemas with path bounds checking, strict least-privilege read/write capability scoping (eliminating broad tenant/FS access), and mandatory cryptographic approval for state-altering actions.
-3. **Covert Side-Channels & DNS Egress Tunneling**:
+   - *Mitigation (OWASP Nov 2026 Agentic Defense & Microsoft Codename MDASH)*: Prohibit raw shell execution. Enforce strictly-typed Pydantic/JSON Schemas with path bounds checking, strict least-privilege read/write capability scoping (eliminating broad tenant/FS access), multi-model agentic security scanning (`MDASH` / `SECURITY.md` disclosure policies), and mandatory cryptographic approval for state-altering actions.
+4. **Covert Side-Channels & DNS Egress Tunneling**:
    - Exfiltrating host secrets encoded into DNS queries (`exfil.<base64>.c2.net`).
    - *Mitigation*: Ephemeral network namespaces with default-deny egress. DNS routed exclusively through an inspection proxy dropping high-entropy queries.
-4. **Recursive Subagent Spawning & Starvation (Fork Bombs)**:
+5. **Recursive Subagent Spawning & Starvation (Fork Bombs)**:
    - Runaway recursive subagents exhausting GPU/CPU and persisting as daemons.
    - *Mitigation*: Max recursion depth capped at 1, individual execution windows bounded by a hard 120-second TTL, and cgroup v2 enforcing strict `PIDsLimit=64` and memory ceilings.
-5. **Model Context Protocol (MCP) Server Pivoting**:
+6. **Model Context Protocol (MCP) Server Pivoting**:
    - Agents leveraging read-only MCP access to pivot laterally into sibling terminal or database tools.
    - *Mitigation*: Zero-Trust MCP proxies requiring ephemeral, single-use signed HMAC tokens specifying allowed operations, bound strictly to loopback interfaces.
-6. **Token-Level Steganography & Memory Smuggling**:
+7. **Token-Level Steganography & Memory Smuggling**:
    - Shellcode smuggled inside zero-width Unicode characters (`\u200b`, `\u200c`) or multi-turn chunking.
    - *Mitigation*: Unicode NFKC normalization, entropy threshold auditing, and strict JSON deserialization prior to execution surfaces.
 
@@ -487,7 +491,7 @@ flowchart TD
   - Supports Dynamic Client Registration (DCR), cryptographic identity assertions, and OAuth 2.1 loopback proxies to eliminate hardcoded secrets and enforce role-based access control (RBAC).
 - **FastMCP v4.2 ("Mad Skills") / Python SDK v2 Integration (`PrefectHQ/fastmcp`)**:
   - **SEP-2640 Skills over MCP**: Standardizes server-served agent skills (`SKILL.md` + scripts/assets) using `SkillsExtension` (`skills/list`, `skills/get`) alongside `SkillProvider`, `SkillsDirectoryProvider`, and `SkillCatalogProvider`, exposing `skill://` resources dynamically while maintaining backward compatibility with FastMCP 4.1 (`list_skill_resources()`).
-  - **Google ADK 3-Legged OAuth for Agent-to-Agent (A2A)**, **Unreal Engine 5.8 Official Native Unreal MCP Server**, **`Godot-MCP`**, & **`GhidrAssistMCP`**: Supports secure A2A token delegation alongside first-party UE 5.8 Editor MCP tool orchestration, Godot 4.7 scene manipulation, and Ghidra 12.2 binary decompilation/xref inspection via FastMCP.
+  - **Google ADK 3-Legged OAuth for Agent-to-Agent (A2A)**, **Unreal Engine 5.8 Official Native Unreal MCP Server**, **Async-First Agent Harness (`unreal-agent-benchmark`)**, **`Godot-MCP`**, & **`GhidrAssistMCP`**: Supports secure A2A token delegation alongside first-party UE 5.8 Editor MCP tool orchestration, non-blocking asynchronous background build/test loops (eliminating token/wall-clock stalls), Godot 4.7 scene manipulation, and Ghidra 12.2 binary decompilation/xref inspection via FastMCP; aligned with **Microsoft/GitHub Codename MDASH** security hardening across MCP servers.
   - Standardizing custom MCP servers on FastMCP v4.2 utilizing `TasksExtension` (`fastmcp[tasks]`, conforming to `io.modelcontextprotocol/tasks`), Redis-backed distributed task persistence with custom credential providers, `CurrentContext` dependency injection, and native background task decorators:
 ```python
 # Modern FastMCP v4 Server with Background Tasks (SEP-1686) & Context Dependency Injection

@@ -16,6 +16,7 @@
 - [docker](file:///G:/My%20Drive/Antigravity/Projects/docker)
 - [opensource](file:///G:/My%20Drive/Antigravity/Projects/opensource)
 - [Cert Training Guide](file:///G:/My%20Drive/Antigravity/Projects/Cert%20Training%20Guide)
+- [Popular Github Projects](file:///G:/My%20Drive/Antigravity/Projects/Popular%20Github%20Projects)
 
 ---
 
@@ -74,12 +75,19 @@
     - **Check Point Gaia OS (`CVE-2026-123039`)**: Incorrect permission assignment in DynamicCLI daemon enabling local privilege escalation to root.
     - **Barracuda Networks ESG (`CVE-2026-116606`, `CVE-2026-111560`)**: Critical authentication bypass and command injection chain leading to root compromise.
     - **IBM Aspera Faspex (`CVE-2026-123218`)**: Incorrect authorization flaw leading to privilege escalation.
+    - **Mid-November 2026 Critical Exploits & CISA KEV Additions (Nov 13–18, 2026)**:
+      - **BerriAI LiteLLM Sandbox Escape & RCE (`CVE-2026-40217` — CISA KEV Added Nov 18, 2026)**: Hand-rolled Python sandbox in `/guardrails/test_custom_code` bypassed via runtime bytecode manipulation (chained with `CVE-2026-47101`/`47102` for root container RCE & LLMjacking credential theft). **Mandatory Fix**: Upgrade to `litellm >= 1.83.11` / `1.83.14-stable` (`RestrictedPython` replacement), block `POST /guardrails/test_custom_code` at WAF/gateway, and rotate all AI provider API keys.
+      - **Linux Kernel Critical IPv4 TCP Use-After-Free (`CVE-2026-98432` — CVSS 9.8 Critical)**: Unauthenticated remote DoS/RCE triggered via crafted TCP SYN packets carrying IPv4 options (Timestamp / Record Route) racing connection setup across RHEL 8/9/10 and OpenShift 4.21 `ose-rhel-coreos` (`RHSA-2026:95408`).
+      - **NGINX HTTP/2 "NGINX2Root" Flaws (`CVE-2026-123007` & `CVE-2026-123633` — Nov 2026)**: Integer underflow in HTTP/2 flow control causing heap buffer overflow/RCE (`CVE-2026-123007`) and HTTP/2 upstream proxy draining UAF (`CVE-2026-123633`) affecting NGINX OSS & Plus.
+      - **Podman & Container Archive Escape (`RHSA-2026:93464` / `CVE-2025-11395`, `RHSA-2026:98554` / Go `CVE-2026-33818`, `CVE-2026-56860`) + Docker `moby/go-archive` "CopyEscape" (`CVE-2026-17106`)**: Arbitrary host file write via malicious tar/OCI archives in `podman load` and `docker cp`, plus Go `encoding/asn1` & `net/url` DoS; upgrade RHEL 10 Podman (`sudo dnf upgrade podman podman-remote podman-docker`) and Docker Desktop.
+      - **Additional Nov 13–18 CISA KEV Additions**: **Perforce Puppet Enterprise (`CVE-2026-115731`, CVSS 9.4, Nov 17)** untrusted deserialization RCE; **Check Point Gaia OS (`CVE-2026-123039`, Nov 13)** DynamicCLI local root socket LPE; **UnrealIRCd (`CVE-2026-114713`, Nov 13)**; **Synology DSM (`CVE-2024-10441`, Nov 18)**; **Apache Axis (`CVE-2026-90436`, Nov 18)**; **REDCap (`CVE-2026-90817`, Nov 18)**.
 - **CSAF 2.0/3.0 JSON Feeds**: Automated parsing of Common Security Advisory Framework machine-readable feeds to pinpoint first-fixed software versions.
 - **DefectDojo v2/v3 Aggregation**: Automated vulnerability deduplication, SLA breach alerting, and CVE tracking across scanned subnets.
 - **NetBird Zero-Trust Network Access (`netbirdio/netbird`)**: Extend the C# security monitor to enforce WireGuard-based endpoint posture verification:
   - Verify BitLocker encryption status, Windows Defender real-time protection, OS build version, and local firewall profiles before granting network access.
 
-### .NET 10 / C# High-Performance Codebase
+### .NET 10 / C# High-Performance Codebase & Portfolio Security Hardening (Nov 18, 2026)
+- **Production Security Hardening Middleware (`vulnerability management/Middleware/SecurityHardeningMiddleware.cs` & `MY Security/Program.cs`)**: Deployed across both .NET 10 security hubs on Nov 18, 2026, enforcing `Content-Security-Policy` (`frame-ancestors 'none'; base-uri 'self'; form-action 'self'`), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, `X-Permitted-Cross-Domain-Policies: none`, and strict same-origin `Origin`/`Referer` validation blocking cross-origin `POST`/`PUT`/`PATCH`/`DELETE` mutations (HTTP 403), paired with portfolio-wide `SECURITY.md` disclosure policies across 10+ repositories (`MY Security`, `vulnerability management`, `Popular Github Projects`, `using ai agents for profit`, `stock watch`, `screen reader`, `mobile game`, `email organizer`, `agent 365`, `AAC`).
 - **Native AOT Compilation**: Compile scanning agents with Native AOT for zero-dependency, sub-10ms startup binaries that execute without a .NET runtime installed.
 - **Memory-Efficient Streaming**: Use `IAsyncEnumerable<VulnerabilityRecord>` to stream port scan results and CVE matches directly to SQLite without memory spikes:
 ```csharp
@@ -113,7 +121,7 @@ Ingest and prioritize critical event IDs mapped to MITRE ATT&CK techniques:
 | **Event ID 25** | Process Tampering | **T1055** (Process Hollowing) | External modification of process memory sections or image headers. |
 
 ### Automated Remediation & Scanner Orchestration
-Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, and `fix_event_viewer_issues.ps1`) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through November 18, 2026 02:32 AM: Engine `1.1.26100.4`, DAT `1.463.353.0`, 522 active processes inspected, 15 persistence/autostart locations audited including `SteamPBZPerformanceWatcher`, 0 threats, 9.68s), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access:
+Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, and `fix_event_viewer_issues.ps1`) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through **November 19, 2026 02:32:07 AM**: Engine `1.1.26100.4`, DAT `1.463.367.0` updated `11/18/2026 7:23:43 PM`, 508 active processes inspected, 15 persistence/autostart locations audited including `SteamPBZPerformanceWatcher`, 0 threats, 7.98s), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access:
 ```powershell
 # Automated Sysmon & McAfee Alert Triage Pipeline
 $Alerts = Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Sysmon/Operational'; ID=1,3,10} -MaxEvents 50
@@ -136,7 +144,7 @@ foreach ($Event in $Alerts) {
 - **Unified Kernel Images (UKIs)**: Combines kernel, initrd, and UEFI stub into a single cryptographically signed PE binary, providing an unbroken hardware root-of-trust during Secure Boot.
 - **Enterprise Network & Storage**: NetworkManager 1.52 with native IPsec IPv6 subnet-to-subnet peering and encrypted RPC over TLS for NFS filesystems.
 - **Podman 5.4+ Multi-Architecture Builds**: Single-command multi-arch image compilation (`podman build --platform linux/amd64,linux/arm64`) with streamlined OCI layer generation.
-- **RHEL 10 Image Mode (`bootc`), RHEL 10.3 & Post-Quantum Cryptography (PQC)**: Built on the Linux 6.12 kernel lineage (maturing through **RHEL 10.3** in Nov 2026 with RHEL Lightspeed AI integration and **NoisyTCP `CVE-2026-99288`** kernel hardening), **Image Mode for RHEL** builds, distributes, and updates the entire operating system (kernel through systemd) as an immutable OCI container image via `bootc`, eliminating configuration drift across bare-metal, VM, and cloud nodes. Native OpenSSL integration embeds NIST-approved quantum-resistant algorithms (**ML-KEM** key encapsulation and PQC signature suites) to mitigate "harvest now, decrypt later" attacks. Upstream mainline Linux has progressed to **Linux 7.4-rc** and Podman continues evolving into 6.x branches while Quadlets remain standard.
+- **RHEL 10 Image Mode (`bootc`), RHEL 10.3 & Post-Quantum Cryptography (PQC)**: Built on the Linux 6.12 kernel lineage (maturing through **RHEL 10.3** released Nov 10, 2026 with RHEL Lightspeed AI integration, **CVE-2026-98432** critical IPv4 TCP UAF emergency kernel patches, **NoisyTCP `CVE-2026-99288`** kernel hardening, and **Podman `RHSA-2026:93464`/`98554`** archive/Go fixes), **Image Mode for RHEL** builds, distributes, and updates the entire operating system (kernel through systemd) as an immutable OCI container image via `bootc`, eliminating configuration drift across bare-metal, VM, and cloud nodes. Native OpenSSL integration embeds NIST-approved quantum-resistant algorithms (**ML-KEM** key encapsulation and PQC signature suites) to mitigate "harvest now, decrypt later" attacks. Upstream mainline Linux has progressed to **Linux 7.4-rc** and Podman continues evolving into 6.x branches while Quadlets remain standard.
 - **Container Supply Chain & CISA KEV Vulnerability Auditing**: In response to **CVE-2026-123158 ("SSHole")**, RHCSA environments enforce baseline image inspection. Podman and container builds utilizing `musl libc` (such as Alpine Linux) must verify OpenSSH is patched to 10.6p2+, ensure `PasswordAuthentication no` is explicitly set in `/etc/ssh/sshd_config`, or standardize on glibc/PAM-backed base images (e.g. `ubi9-minimal` / `ubi10-micro`).
 
 ### The Podman 5 Quadlets & Modern Networking Paradigm
@@ -523,6 +531,7 @@ The `openshift` repository is an offline-capable, interactive platform engineeri
 - **OpenShift 4.21 (Kubernetes 1.34 & CRI-O 1.34)**:
   - **Dynamic Resource Allocation (DRA) GA**: Replaces rigid count-based device plugins (`nvidia.com/gpu: 1`) with CEL expression-driven GPU scheduling (matching exact VRAM thresholds $\ge 40\text{GB}$, compute capability, and NVLink/NUMA topology).
   - **Converged AI/ML & Virtualization Fabric**: Native **Kueue** queueing, **JobSet Operator** enhancements for distributed multi-node AI training, and unified VM + container orchestration.
+  - **Nov 2026 Kernel & CSI Node Errata**: Apply `ose-rhel-coreos` (`RHSA-2026:95408`) remediating **CVE-2026-98432** (CVSS 9.8 Linux kernel IPv4 TCP UAF) and CSI driver advisory **CVE-2026-85781**; verify NGINX Ingress/sidecar HTTP/2 builds against **CVE-2026-123007 / 123633**.
 
 ```mermaid
 flowchart TD
@@ -924,7 +933,7 @@ The project provides a comprehensive PowerShell test suite enforcing pre-flight 
 
 ### Cross-Portfolio Synergy
 - **With `RHCSA Exam200` & `openshift`**: Provides the foundational local container testing environment before transitioning manifests into Podman Quadlets or OpenShift Ingress routes.
-- **With `vulnerability management` & `MY Security`**: Local container images and Alpine base layers are actively audited against Cisco openVuln feeds and **CVE-2026-123158 ("SSHole")** prior to registry promotion.
+- **With `vulnerability management` & `MY Security`**: Local container images and Alpine base layers are actively audited against Cisco openVuln feeds, **CVE-2026-123158 ("SSHole")**, **`CVE-2026-17106` ("CopyEscape" in `moby/go-archive`)**, and **Podman `RHSA-2026:93464`/`98554`** prior to registry promotion.
 - **With `Scripting`**: Leverages PowerShell diagnostic cmdlets (`Test-DockerEnvironment.ps1`) adhering strictly to Approved Verbs and object-streaming guidelines.
 - **With `deploy`**: Synchronizes container health status into the master deployment telemetry suite.
 

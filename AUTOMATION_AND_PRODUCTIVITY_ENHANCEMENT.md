@@ -31,6 +31,8 @@
 - [index folder](file:///G:/My%20Drive/Antigravity/Projects/index%20folder)
 - [onedrive cleanup](file:///G:/My%20Drive/Antigravity/Projects/onedrive%20cleanup)
 - [resume](file:///G:/My%20Drive/Antigravity/Projects/resume)
+- [Popular Github Projects](file:///G:/My%20Drive/Antigravity/Projects/Popular%20Github%20Projects)
+- [increase my bing score](file:///G:/My%20Drive/Antigravity/Projects/increase%20my%20bing%20score)
 
 ---
 
@@ -77,7 +79,7 @@ import os, json, hashlib
 - **Automated Token Lifecycle**: Ensure `token.json` refreshes automatically in the background using `google.auth.transport.requests.Request()`. If refresh fails, fall back to headless loopback authentication without stalling background tasks.
 - **SHA-256 Pre-Flight Deduplication**: Compute hashes of all local and remote files before issuing Google Drive API write calls, eliminating redundant cloud storage usage and conserving quota.
 - **Choogle Automated Search Sync (`Sync-ChoogleProjects.ps1`)**:
-  - Automatically indexes all **80 active projects** (including newly detected `Popular Github Projects`, `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on November 17, 2026 at 11:05:02 PM).
+  - Automatically indexes all **81 active projects** (including newly graduated `Popular Github Projects` Trending Radar, newly detected `increase my bing score`, `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on **November 18, 2026 at 11:05:02 PM**).
 
 ---
 
@@ -91,7 +93,7 @@ Enhance `automate.bat` and `run_sentinel_silent.vbs` to execute at 6:00 AM daily
 4. **Storage & Cloud Health**: Monitor available space across Drive C: (OS), Drive F: (SSD), and Drive G: (Google Drive).
 5. **Passive Income & Media Pipeline**:
    - Ingest completed YouTube gaming clips from `modules/youtube/` (`ready_for_upload` vs `uploaded`), review clip rotations across TEKKEN 8, Beast of Reincarnation, and Sonic Racing.
-   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `sfx_manager.py`, `sound_randomizer.py`, `audio_rotation.json`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, routing 32+ authentic Marshall Law & character soundbytes (FIFO non-repeating rotation), and pacing uploads (10/day) across TEKKEN 8, Beast of Reincarnation, and Sonic Racing (shorts + 1440p60 longform compilations). **Production Status**: Actively executed and verified in production through **November 18, 2026 03:00 AM**.
+   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `convert_to_shorts.py`, `sfx_manager.py`, `sound_randomizer.py`, `audio_rotation.json`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, routing 32+ authentic Marshall Law & character soundbytes (FIFO non-repeating rotation), and pacing uploads (10/day) across **Gears of War: E-Day**, TEKKEN 8, Beast of Reincarnation, and Sonic Racing (shorts + 1440p60 longform compilations). **Production Status**: Actively executed and verified in production through **November 19, 2026 02:28 AM** (`short_hype_Gears_of_War__E-Day-2026_10__chamgotdis1.mp4` uploaded).
    - Monitor the 12-episode scheduled publishing queue from [youtube channels](file:///G:/My%20Drive/Antigravity/Projects/youtube%20channels) (`Invoke-AutoUploadQueue.ps1`, `youtube_api_upload.py`).
    - Audit new victory boss recordings saved by [Record my Gameplay](file:///G:/My%20Drive/Antigravity/Projects/Record%20my%20Gameplay) ready for short-form conversion.
 6. **Quantitative Market & Trading Setups**: Ingest Carter Volatility Squeeze coiling alerts and Wyckoff Spring setups from `stock watch/screener/scanner.py` (`deploy/coiling_watchlist.json`), alongside active portfolio P&L, win rates, and daily upskill logs from `stock Bot traders/knowledge_base/daily_upskill_log.md`.
@@ -116,8 +118,8 @@ sf.write('morning_brief.wav', samples, sample_rate)
 ## 3. Screen Reader & Note Taker: Accessibility & Spaced Repetition
 
 ### Document Intelligence & IBM Docling Frontier
-- **IBM Docling (`docling-project/docling`) Integration**:
-  - Migrate `ocr_engine.py` to use IBM Docling as the primary document converter.
+- **IBM Docling, `docling.rs` & `Granite-Docling` Integration**:
+  - Migrate `ocr_engine.py` to use IBM Docling (`docling-project/docling`), native zero-PyTorch Rust **`docling.rs`**, or IBM **Granite-Docling (258M VLM)** (*DocTags* structured markup) as the primary document converter.
   - Accurately converts complex multi-column technical PDFs, tables, diagrams, and OCR scans directly into structured markdown format:
 ```python
 from docling.document_converter import DocumentConverter
@@ -142,9 +144,9 @@ The **`improve gaming pc performance`** project provides an automated, real-time
 - Automatically invokes the tuning engine (`Invoke-PBZOptimization.ps1`) without requiring manual user intervention or desktop context switching.
 
 #### 2. Automated PBZ & System Optimization Suite (`Invoke-PBZOptimization.ps1`)
-- **Factory Acer Predator Power Plan Lock (Thermal-Safe Tuning, Nov 18, 2026)**:
+- **Factory Acer Predator Power Plan Lock (Thermal-Safe Tuning, Nov 19, 2026)**:
   - Updated `Invoke-PBZOptimization.ps1` to enforce the factory-tuned Acer Predator power plan (`$AcerPlanGuid = "02e54963-3a6d-4756-9cca-a42174041e63"`) instead of Windows Ultimate Performance (`100%` minimum processor state), preventing mobile i9-13900HX thermal throttling and power trip-offs during sustained Unreal Engine 5 sessions.
-  - Verified in production (`Invoke-PBZOptimization.ps1` updated `2026-11-18 03:02 AM`), keeping P-core/E-core boost headroom responsive while avoiding thermal trip-offs.
+  - Verified in production (`Invoke-PBZOptimization.ps1` refreshed `2026-11-19 03:01 AM`), keeping P-core/E-core boost headroom responsive while avoiding thermal trip-offs.
 - **Discrete RTX 4080 GPU Preference Registry Enforcement**:
   - Automatically queries and registers the high-performance GPU preference (`GpuPreference=2;`) in the Windows DirectX Registry (`HKCU:\Software\Microsoft\DirectX\UserGpuPreferences`) for all detected game binaries (`F:\SteamLibrary\steamapps\common\PBZ\platform\steam\PBZ.exe` and `PBZ.exe`), bypassing hybrid graphics switching latency:
   ```powershell
@@ -858,4 +860,23 @@ The newly created **`resume`** project centralizes Chase R. Hamilton's ATS-optim
 
 ### Immediate Frontier Upgrades
 - **Automated Markdown-to-HTML/PDF Build Pipeline**: Add a PowerShell/Python `uv` script using WeasyPrint or Playwright headless Chromium (`page.pdf()`) to regenerate all tailored HTML and PDF deliverables deterministically whenever `Chase_Hamilton_Master_Resume.md` is updated, syncing hashes automatically to `portfolio` and `Github Portfolio`.
-- **JSON-LD & ATS Keyword Verification**: Validate exported PDFs via `docling` / `pdftotext` to guarantee 100% ATS text-extraction fidelity (zero multi-column interleaving) and sync structured career metrics with `Github Portfolio/projects.json`.
+- **JSON-LD & ATS Keyword Verification**: Validate exported PDFs via `docling` / `docling.rs` / `pdftotext` to guarantee 100% ATS text-extraction fidelity (zero multi-column interleaving) and sync structured career metrics with `Github Portfolio/projects.json` (updated `2026-11-18 18:06`).
+
+---
+
+## 17. GitHub Daily Trending & Rising Projects Console (`Popular Github Projects`)
+
+### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\Popular Github Projects`)
+Graduated from scaffolding on **November 18, 2026** into **`github-trending-radar` v1.0.0**—a full-stack Node.js `>=24.0.0` (verified `v24.20.0`) & Vercel-ready PWA console (`server.mjs`, `vercel.json`, `public/index.html`, `public/sw.js`, `public/data/reports.json`) tracking daily GitHub trending & rising repositories alongside the verified Windows Workstation Environment Baseline (`git 2.53.0`, `gh 2.97.0` as `Chammin00`, `Node v24.20.0`, `Python 3.12.10`, `uv 0.12.5`, `winget v1.29.380`):
+- **Hardened HTTP & SSE Architecture (`server.mjs` on `127.0.0.1:3847`)**: Live `fsSync.watch()` Server-Sent Events stream (`/api/events`) on `reports/*.md` changes, `/api/reports` JSON API, canonical path-traversal guard (`fullPath.startsWith(PUBLIC_DIR + path.sep)`), and full `SECURITY_HEADERS` (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`) mirrored in `vercel.json` with `Strict-Transport-Security` + `SECURITY.md`.
+- **Mid-Nov 2026 Frontier Targets**: Auto-tracks trending GitHub "Agent Work Surfaces" (`thedotmack/claude-mem`, `mattpocock/skills`, `PrefectHQ/fastmcp` v4.2, `docling-project/docling` / `docling.rs`, `unreal-agent-benchmark`) and classifies `Popular Github Projects` from `Incomplete` to `Deployable` in `deploy/PROJECT_CATALOG.json` & `Choogle`.
+
+---
+
+## 18. Automated Microsoft Rewards Search Pipeline (`increase my bing score`)
+
+### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\increase my bing score`)
+Newly detected **81st portfolio directory** (`2026-11-18 22:51:14`), engineered to modern PowerShell 5.1/7+ standards (`Set-StrictMode -Version Latest`, `$ErrorActionPreference = 'Stop'`, `[CmdletBinding(SupportsShouldProcess)]`, `[PSCustomObject]` streaming):
+- **`Invoke-BingRewardsSearch.ps1`**: Discovers `msedge.exe`, generates randomized unique queries from a `20 topics × 10 modifiers` matrix (`astronomy`, `quantum computing`, `cybersecurity`, etc.), executes paced searches across the active Microsoft Edge profile (`Default` / `Profile 1`) with randomized `MinDelaySeconds`–`MaxDelaySeconds` intervals, and emits structured result records.
+- **`Register-BingRewardsTask.ps1`**: Registers the daily Windows Scheduled Task (`BingRewardsDailySearch`, default `09:00`, `30` searches, `10–20s` delay) with battery/resume resilience.
+- **Immediate Frontier Upgrades**: Add `Test-BingRewardsHealth.ps1` Pester 5.5+ unit tests, daily query-deduplication history log (`search_history.json`) to guarantee zero repeated queries across consecutive days, and telemetry reporting into `deploy/health_status.json` & `automate my day` briefings.
