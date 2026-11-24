@@ -33,6 +33,7 @@
 - [resume](file:///G:/My%20Drive/Antigravity/Projects/resume)
 - [Popular Github Projects](file:///G:/My%20Drive/Antigravity/Projects/Popular%20Github%20Projects)
 - [increase my bing score](file:///G:/My%20Drive/Antigravity/Projects/increase%20my%20bing%20score)
+- [Bookmark-favorites](file:///G:/My%20Drive/Antigravity/Projects/Bookmark-favorites)
 
 ---
 
@@ -79,7 +80,8 @@ import os, json, hashlib
 - **Automated Token Lifecycle**: Ensure `token.json` refreshes automatically in the background using `google.auth.transport.requests.Request()`. If refresh fails, fall back to headless loopback authentication without stalling background tasks.
 - **SHA-256 Pre-Flight Deduplication**: Compute hashes of all local and remote files before issuing Google Drive API write calls, eliminating redundant cloud storage usage and conserving quota.
 - **Choogle Automated Search Sync (`Sync-ChoogleProjects.ps1`)**:
-  - Automatically indexes all **81 active projects** (including newly graduated `Popular Github Projects` Trending Radar, newly detected `increase my bing score`, `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on **November 18, 2026 at 11:05:02 PM**).
+  - Automatically indexes all **87 cataloged projects** (88 workspace directories including `Bookmark-favorites`, `increase my bing score`, `Popular Github Projects`, `Motion`, `Highschool basketball`, `geminipc`, `Neon- orchestrator`, `emulator and rom hunter`, `resume`, `Cert Training Guide`, `onedrive cleanup`, `stock Bot traders`, `Scripting`, and `Record my Gameplay`) into `search-data.js` and syncs `index.html` with real-time operational status, health scores, and quick-launch links (verified executed in production on **November 22, 2026 at 11:05:03 PM**).
+- **Email & Drive Daily Automation**: `email organizer` (`2026-11-22-digest.md`: 100 scanned, 79 categorized across 28 Family-Hamilton, 23 Finance, 15 Newsletters, 10 Notifications, 3 Promotions) and `google drive organizer` (`organizer_activity.log` verified `2026-11-22 08:00:03`).
 
 ---
 
@@ -93,7 +95,7 @@ Enhance `automate.bat` and `run_sentinel_silent.vbs` to execute at 6:00 AM daily
 4. **Storage & Cloud Health**: Monitor available space across Drive C: (OS), Drive F: (SSD), and Drive G: (Google Drive).
 5. **Passive Income & Media Pipeline**:
    - Ingest completed YouTube gaming clips from `modules/youtube/` (`ready_for_upload` vs `uploaded`), review clip rotations across TEKKEN 8, Beast of Reincarnation, and Sonic Racing.
-   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `convert_to_shorts.py`, `sfx_manager.py`, `sound_randomizer.py`, `audio_rotation.json`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, routing 32+ authentic Marshall Law & character soundbytes (FIFO non-repeating rotation), and pacing uploads (10/day) across **Gears of War: E-Day**, TEKKEN 8, Beast of Reincarnation, and Sonic Racing (shorts + 1440p60 longform compilations). **Production Status**: Actively executed and verified in production through **November 19, 2026 02:28 AM** (`short_hype_Gears_of_War__E-Day-2026_10__chamgotdis1.mp4` uploaded).
+   - Monitor the **Passive Income Sentinel Daemon** (`modules/passive_income/sentinel_daemon.py`, `storage_cleaner.py`) and **Longform Video Pipeline** (`Invoke-LongformPipeline.ps1`, `longform_editor.py`, `smart_cutter.py`, `convert_to_shorts.py`, `game_intelligence.py`, `sfx_manager.py`, `sound_randomizer.py`, `audio_rotation.json`), continuously watching captured gameplay directories, tracking processed clip hashes in `processed_clips.json`, routing 32+ authentic Marshall Law & character soundbytes (FIFO non-repeating rotation), and pacing uploads (10/day) across **Gears of War: E-Day**, TEKKEN 8, Beast of Reincarnation, and Sonic Racing: CrossWorlds (shorts + 1440p60 multi-game longform compilations). **Production Status**: Actively executed and verified in production through **November 23, 2026 02:28 AM** (`longform_MultiGame_Collab_20261122_140209_1440p60.mp4`, `short_comedy_TEKKEN_8-2026_11_23-03-28-16_chamgotdis1.mp4`, and `short_hype_Gears_of_War__E-Day` pipeline).
    - Monitor the 12-episode scheduled publishing queue from [youtube channels](file:///G:/My%20Drive/Antigravity/Projects/youtube%20channels) (`Invoke-AutoUploadQueue.ps1`, `youtube_api_upload.py`).
    - Audit new victory boss recordings saved by [Record my Gameplay](file:///G:/My%20Drive/Antigravity/Projects/Record%20my%20Gameplay) ready for short-form conversion.
 6. **Quantitative Market & Trading Setups**: Ingest Carter Volatility Squeeze coiling alerts and Wyckoff Spring setups from `stock watch/screener/scanner.py` (`deploy/coiling_watchlist.json`), alongside active portfolio P&L, win rates, and daily upskill logs from `stock Bot traders/knowledge_base/daily_upskill_log.md`.
@@ -128,7 +130,7 @@ converter = DocumentConverter()
 result = converter.convert("technical_specification.pdf")
 markdown_output = result.document.export_to_markdown()
 ```
-- **Surya OCR & Piper TTS Fallback**: Maintain Surya OCR for live screen region snapshots and Piper TTS / Kokoro for sub-100ms auditory playback.
+- **Surya OCR, Piper TTS & Tiny-Voca Offline TTS (`screen reader/Invoke-TinyVocaOfflineTTS.ps1`)**: Maintain Surya OCR for live screen region snapshots and Piper TTS / Kokoro for sub-100ms auditory playback, now reinforced by **`n4ze3m/tiny-voca` (`v0.2.0`)**—a 4.5M-parameter ~70x real-time offline CPU/JS English TTS engine (`tiny-voca.gguf` staged in `Popular Github Projects/agent-tools/tiny-voca/`, generating `tiny_voca_output.wav` with zero cloud or GPU dependency for both `screen reader` and `AAC`).
 - **Snapshot Caching & Bookmarks (`bookmarks.json`)**: Persistent snapshot tagging allowing users to jump back to previously read pages with coordinate recall.
 - **Note Taker with Anki / SM-2 Spaced Repetition**: Upgrade `note_generator.py` to automatically transform lecture notes, Security+ syllabus materials, and AWS architecture docs into Anki-compatible `.csv` flashcards using the SuperMemo SM-2 algorithm.
 
@@ -144,9 +146,11 @@ The **`improve gaming pc performance`** project provides an automated, real-time
 - Automatically invokes the tuning engine (`Invoke-PBZOptimization.ps1`) without requiring manual user intervention or desktop context switching.
 
 #### 2. Automated PBZ & System Optimization Suite (`Invoke-PBZOptimization.ps1`)
-- **Factory Acer Predator Power Plan Lock (Thermal-Safe Tuning, Nov 19, 2026)**:
+- **Factory Acer Predator Power Plan Lock (Thermal-Safe Tuning, Nov 19–23, 2026)**:
   - Updated `Invoke-PBZOptimization.ps1` to enforce the factory-tuned Acer Predator power plan (`$AcerPlanGuid = "02e54963-3a6d-4756-9cca-a42174041e63"`) instead of Windows Ultimate Performance (`100%` minimum processor state), preventing mobile i9-13900HX thermal throttling and power trip-offs during sustained Unreal Engine 5 sessions.
-  - Verified in production (`Invoke-PBZOptimization.ps1` refreshed `2026-11-19 03:01 AM`), keeping P-core/E-core boost headroom responsive while avoiding thermal trip-offs.
+  - Verified in production (`Invoke-PBZOptimization.ps1` refreshed **`2026-11-23 03:02 AM`**), keeping P-core/E-core boost headroom responsive while avoiding thermal trip-offs.
+- **Ultra-Lightweight Wireless Peripheral Battery Monitor (`Start-BatteryHubMonitor.ps1`)**:
+  - Added on `2026-11-22 09:27` integrating SHA-256 verified **`BatteryHub v1.1.0`** (`krisgfx9/Wireless-Device-Battery-Monitor`, staged in `agent-tools/batteryhub/`), replacing bloated vendor background suites (Logitech G Hub / Razer Synapse) with a ~2 MB RAM native C++/Win32 tray monitor for wireless mice, headsets, keyboards, and controllers during gaming.
 - **Discrete RTX 4080 GPU Preference Registry Enforcement**:
   - Automatically queries and registers the high-performance GPU preference (`GpuPreference=2;`) in the Windows DirectX Registry (`HKCU:\Software\Microsoft\DirectX\UserGpuPreferences`) for all detected game binaries (`F:\SteamLibrary\steamapps\common\PBZ\platform\steam\PBZ.exe` and `PBZ.exe`), bypassing hybrid graphics switching latency:
   ```powershell
@@ -195,12 +199,16 @@ The **`improve gaming pc performance`** project provides an automated, real-time
 
 ---
 
-## 5. Mobile Power-User Recipes: Galaxy Z Fold 6
+## 5. FoldCraft: Native Kotlin & Jetpack Compose Companion for Galaxy Z Fold 6 (`zfold6 features`)
 
-### Termux & Tasker Synergy (`zfold6 features`)
-- **Termux Native Linux Shell**: Run Python scripts, SSH clients, and Git repositories directly on Android with local hardware acceleration.
-- **Samsung DeX Multi-Window Layout**: Optimized desktop workspace configurations for multi-column terminal and coding interfaces when docked.
-- **Automated Bi-Directional Sync**: Syncthing / Termux cron jobs syncing daily notes, flashcards, and shopping trackers between PC and Z Fold 6.
+### Implemented Android Architecture (`com.foldcraft.zfold6`)
+Transformed from a static markdown guide into a full 22-file native **Kotlin + Jetpack Compose** Android application (`compileSdk 35`, `minSdk 31`, Gradle version catalog `gradle/libs.versions.toml`):
+- **Live Posture & Hinge Telemetry (`PostureDashboardScreen.kt`, `FoldCraftViewModel.kt`)**: Combines hardware `Sensor.TYPE_HINGE_ANGLE` (0°–180°) with **Jetpack WindowManager (`androidx.window`)** `FoldingFeature` orientation (`HORIZONTAL` Tabletop vs `VERTICAL` Book) to classify `CLOSED_COVER` (< 25°), `FLEX_TABLETOP` (75°–115°), `FLEX_BOOK` (60°–145°), and `UNFOLDED_FLAT` (150°–180°), including a built-in Posture Simulator slider and adaptive navigation switching between bottom `NavigationBar` (6.3" Cover) and `NavigationRail` (7.6" Inner Display, `screenWidthDp >= 580`).
+- **Custom App Pairs & Floating Windows (`AppPairsScreen.kt`, `AppPairLauncher.kt`)**: 1-tap Split Screen (`Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT`) and Floating Pop-up (`ActivityOptions.setLaunchBounds(...)`) launchers for any installed Android app pair.
+- **Flex Mode Triggers & Floating Edge Dock (`FlexTriggersScreen.kt`, `FoldOverlayService.kt`)**: Background `foregroundServiceType="specialUse"` monitor firing hinge-angle triggers (`OPEN_EDGE_DOCK`, `LAUNCH_APP_PAIR`, `ENABLE_AUTO_ROTATE`, `LOCK_PORTRAIT`) and a draggable `TYPE_APPLICATION_OVERLAY` Edge Dock Pill.
+
+### Cutting-Edge Google & Android Frontier Upgrades (Nov 2026)
+- **Android 17 Adaptive-First, `AppFunctions` (Android MCP) & Android Studio BYOA**: Align `MainActivity.kt` and `PostureDashboardScreen.kt` with Android 17's adaptive-first window resizability contracts, expose FoldCraft App Pair / Flex Trigger actions as on-device MCP tools via **Jetpack `AppFunctions` (Android MCP)** & Google Connected Apps Platform, and leverage **Android Studio Bring Your Own Agent (BYOA)** + **Google AI Studio native Kotlin** for rapid Flex Mode widget/tile generation alongside Termux + Syncthing PC sync recipes.
 
 ---
 
@@ -534,7 +542,7 @@ Engineered strictly under Google Chrome Manifest V3 standards:
 Leverages modern Chrome 140+ side panel capabilities:
 - **Global Click-to-Open**: Configured via `chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })`.
 - **Docking Awareness & Lifecycle Events**: Dynamically queries `chrome.sidePanel.getLayout()` to detect whether the user docked the side panel to the left or right of the screen, adjusting flex layouts, breadcrumb alignments, and chevron collapse directions automatically. Integrates `chrome.sidePanel.close()` for programmatic dismissal and binds `chrome.sidePanel.onOpened` / `chrome.sidePanel.onClosed` lifecycle hooks to suspend expensive background timers and resume telemetry streams seamlessly.
-- **Chrome 157 Security & WebGPU SLM Standards (Nov 2026)**: Enforce minimum browser baseline **Chrome 157 (`157.0.8103.50/.51+`, 200+ security fixes)** patching actively exploited XML/XSLT Use-After-Free zero-day **CVE-2026-125350** (CISA KEV); adhere to Chrome Web Store host-permission scrutiny (`activeTab` + proxy workers instead of broad host permissions or client-bundled API keys); and leverage **WebGPU** (including Chrome 157 subgroup size controls) inside side panels/offscreen workers for zero-latency local SLM inference.
+- **Chrome 157 Security, `WebMCP` (`navigator.modelContext.registerTool`) & `LiteRT.js` WebGPU Standards (Nov 2026)**: Enforce minimum browser baseline **Chrome 157 (`157.0.8103.50/.51+`, 200+ security fixes)** patching actively exploited XML/XSLT Use-After-Free zero-day **CVE-2026-125350** (CISA KEV); adhere to Chrome Web Store host-permission scrutiny (`activeTab` + proxy workers instead of broad host permissions or client-bundled API keys); adopt Google's proposed **`WebMCP`** (`navigator.modelContext.registerTool`) to expose structured JS tab/bookmark tools directly to browser AI agents instead of brittle DOM scraping; and leverage **`LiteRT.js`** (Wasm/WebGPU/WebNN, including Chrome 157 subgroup size controls) inside side panels/offscreen workers for zero-latency local SLM inference.
 
 #### 3. Programmatic Tab Grouping & Domain Categorization (`chrome.tabGroups`)
 Automates tab organization into clean, color-coded functional clusters:
@@ -867,16 +875,29 @@ The newly created **`resume`** project centralizes Chase R. Hamilton's ATS-optim
 ## 17. GitHub Daily Trending & Rising Projects Console (`Popular Github Projects`)
 
 ### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\Popular Github Projects`)
-Graduated from scaffolding on **November 18, 2026** into **`github-trending-radar` v1.0.0**—a full-stack Node.js `>=24.0.0` (verified `v24.20.0`) & Vercel-ready PWA console (`server.mjs`, `vercel.json`, `public/index.html`, `public/sw.js`, `public/data/reports.json`) tracking daily GitHub trending & rising repositories alongside the verified Windows Workstation Environment Baseline (`git 2.53.0`, `gh 2.97.0` as `Chammin00`, `Node v24.20.0`, `Python 3.12.10`, `uv 0.12.5`, `winget v1.29.380`):
+Graduated from scaffolding on **November 18, 2026** into **`github-trending-radar` v1.0.0**—a full-stack Node.js `>=24.0.0` (verified `v24.20.0`) & Vercel-ready PWA console (`server.mjs`, `vercel.json`, `public/index.html`, `public/sw.js`, `public/data/reports.json`, `dist/`) tracking daily GitHub trending & rising repositories alongside the verified Windows Workstation Environment Baseline (`git 2.53.0`, `gh 2.97.0` as `Chammin00`, `Node v24.20.0`, `Python 3.12.10`, `uv 0.12.5`, `winget v1.29.380`; Docker/pnpm/Rust/Go flagged as optional installs):
 - **Hardened HTTP & SSE Architecture (`server.mjs` on `127.0.0.1:3847`)**: Live `fsSync.watch()` Server-Sent Events stream (`/api/events`) on `reports/*.md` changes, `/api/reports` JSON API, canonical path-traversal guard (`fullPath.startsWith(PUBLIC_DIR + path.sep)`), and full `SECURITY_HEADERS` (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`) mirrored in `vercel.json` with `Strict-Transport-Security` + `SECURITY.md`.
-- **Mid-Nov 2026 Frontier Targets**: Auto-tracks trending GitHub "Agent Work Surfaces" (`thedotmack/claude-mem`, `mattpocock/skills`, `PrefectHQ/fastmcp` v4.2, `docling-project/docling` / `docling.rs`, `unreal-agent-benchmark`) and classifies `Popular Github Projects` from `Incomplete` to `Deployable` in `deploy/PROJECT_CATALOG.json` & `Choogle`.
+- **Verified `2026-11-22` Trending & Rising Feed (`reports/2026-11-22.md`) & 18 Organized `agent-tools/`**:
+  - **Popular & Trending**: **`morluto/rea`** (`rea-agents-6.10.1`, 473.6k stars -> `REA`), **`openclaw/openclaw`** (`v2026.11.6`, 395k stars), **`deepseek-ai/deepseek-harness`** (`dsh`, 285.4k stars), **`NousResearch/hermes-agent`** (`v0.23.3`, 265.3k stars), **`anomalyco/opencode`** (`v1.19.6`, 228.5k stars), **`n8n-io/n8n`** (`n8n@2.48.7`), **`yt-dlp/yt-dlp`** (`2026.10.26`), **`firecrawl/firecrawl`** (`v2.11.0`), **`DietrichGebert/ponytail`** (`v5.3.3`, 196.7k stars minimal-diff skill pack), **`Significant-Gravitas/AutoGPT`** (`autogpt-platform-beta-v0.12.0`).
+  - **New Rising (Nov 15–22)**: **`ItsNotRexed/Leonida`** (11k stars, GTA VI Xbox Series static recompilation), **`erkamyaman/rust-anything`** (`v2.1.0` SHA-256 verified in `agent-tools/rust-anything/`, `v3.3.0` latest), **`krisgfx9/Wireless-Device-Battery-Monitor`** (`BatteryHub v1.1.0`), **`iamajmeena/neonclipping`** (`v1.0.0` audited / `v1.1.0` latest), **`sybil-solutions/inference-optimisation-skill`**, **`joshpuckett/allo`** (`v1.0.3` variable typeface), **`R0Y00/Xbox2Windows`**, **`omonkeyz/xbox-emulator`**, **`EL4CTEO/fast-anything`** (`v0.6.1`), and **`Lemxy/WinRust`** (`v0.5.5` native Windows Rust utilities).
+  - **7 New Agent-Tool Portfolio Integrations (`agent-tools/README.md`, `2026-11-22`)**: `rust-anything` -> `REA`, `BatteryHub` -> `improve gaming pc performance`, `NeonClipping` -> `youtube shorts edit for gaming`, `@shapeshift-labs/ink-studio` -> `game studio` & `3d images`, `tiny-voca` -> `screen reader` & `AAC`, `hikaku-extension` -> `is this AI`, and `RustText` (`v2.5.0`) -> `windows event viewer`.
 
 ---
 
 ## 18. Automated Microsoft Rewards Search Pipeline (`increase my bing score`)
 
 ### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\increase my bing score`)
-Newly detected **81st portfolio directory** (`2026-11-18 22:51:14`), engineered to modern PowerShell 5.1/7+ standards (`Set-StrictMode -Version Latest`, `$ErrorActionPreference = 'Stop'`, `[CmdletBinding(SupportsShouldProcess)]`, `[PSCustomObject]` streaming):
+Newly detected **81st portfolio directory** (`2026-11-18 22:51:14`, actively running daily at 09:00 through **`2026-11-22 09:00:01`**), engineered to modern PowerShell 5.1/7+ standards (`Set-StrictMode -Version Latest`, `$ErrorActionPreference = 'Stop'`, `[CmdletBinding(SupportsShouldProcess)]`, `[PSCustomObject]` streaming, `README.md` documented):
 - **`Invoke-BingRewardsSearch.ps1`**: Discovers `msedge.exe`, generates randomized unique queries from a `20 topics × 10 modifiers` matrix (`astronomy`, `quantum computing`, `cybersecurity`, etc.), executes paced searches across the active Microsoft Edge profile (`Default` / `Profile 1`) with randomized `MinDelaySeconds`–`MaxDelaySeconds` intervals, and emits structured result records.
 - **`Register-BingRewardsTask.ps1`**: Registers the daily Windows Scheduled Task (`BingRewardsDailySearch`, default `09:00`, `30` searches, `10–20s` delay) with battery/resume resilience.
 - **Immediate Frontier Upgrades**: Add `Test-BingRewardsHealth.ps1` Pester 5.5+ unit tests, daily query-deduplication history log (`search_history.json`) to guarantee zero repeated queries across consecutive days, and telemetry reporting into `deploy/health_status.json` & `automate my day` briefings.
+
+---
+
+## 19. Automated Browser Bookmark & Workspace Favorites Engine (`Bookmark-favorites`)
+
+### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\Bookmark-favorites`)
+Newly deployed on **November 21, 2026** and actively syncing daily (Edge sync verified **`2026-11-22 08:00:04`**)—a cross-browser workspace navigation synchronizer converting every project in `G:\My Drive\Antigravity\Projects` into structured Chrome & Microsoft Edge bookmark bars:
+- **`generate_bookmarks.py`**: Scans all workspace projects across 6 curated domains (`01 Hubs & Index`, `02 AI & Agents`, `03 Cybersecurity & IT`, `04 Games & 3D`, `05 Finance & Productivity`, `06 Web, Media & Other`) and emits `antigravity-all-projects-bookmarks.html` + `projects-bookmarks.json` (**88 project bookmarks generated**: 50 with HTML entry points, 38 folder-only).
+- **`Sync-BrowserBookmarks.ps1` & `Run-BookmarkSync.ps1`**: Safely backs up live Chrome (`Google\Chrome\User Data\Default\Bookmarks.bak.*`) and Microsoft Edge (`Microsoft\Edge\User Data\Default\Bookmarks.bak.*`) JSON files before atomically injecting the Antigravity bookmark folder tree, logging every sync to `sync-log.txt`.
+- **Immediate Frontier Upgrades**: Trigger `Run-BookmarkSync.ps1` automatically from `deploy/routine_scan.ps1` whenever new project directories are detected, and sync JSON exports with `Plugins/website-bookmark-manager` and `chrome tab and bar`.

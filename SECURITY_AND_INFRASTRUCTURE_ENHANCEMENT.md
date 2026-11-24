@@ -75,12 +75,17 @@
     - **Check Point Gaia OS (`CVE-2026-123039`)**: Incorrect permission assignment in DynamicCLI daemon enabling local privilege escalation to root.
     - **Barracuda Networks ESG (`CVE-2026-116606`, `CVE-2026-111560`)**: Critical authentication bypass and command injection chain leading to root compromise.
     - **IBM Aspera Faspex (`CVE-2026-123218`)**: Incorrect authorization flaw leading to privilege escalation.
-    - **Mid-November 2026 Critical Exploits & CISA KEV Additions (Nov 13–18, 2026)**:
+    - **Mid-November 2026 Critical Exploits & CISA KEV Additions (Nov 13–20, 2026)**:
+      - **Nov 20, 2026 CISA KEV Batch (BOD 26-04 — 3-Day Federal Remediation Deadline Nov 23, 2026)**:
+        - **Cisco Expressway Series & Expressway Select (`CVE-2026-76466` — CVSS 9.8 Critical, CWE-798)**: Hard-coded credentials allowing unauthenticated remote attackers (with persistent cookies and cluster network access) to execute **root** commands on clustered devices via the database service; actively weaponized against enterprise edge gateways. **Mandatory Fix**: Upgrade clustered Expressway devices to **15.5.21+** (`cisco-sa-vcs-static-cred-hr7EWZ8t`), restrict cluster ports to trusted peers, and conduct forensic triage for unauthorized persistence.
+        - **Apache Roller (`CVE-2026-129448` — CVSS 9.8 Critical)**: Untrusted data deserialization via the XML-RPC endpoint enabling unauthenticated RCE.
+        - **Broadcom VMware vCenter (`CVE-2026-123890` — CVSS 9.8 Critical)**: Authentication bypass via alternate path/channel.
+        - **SAP NetWeaver Enterprise Portal (`CVE-2025-42884` — CVSS 6.5)**: Unauthenticated JNDI property/URL injection.
       - **BerriAI LiteLLM Sandbox Escape & RCE (`CVE-2026-40217` — CISA KEV Added Nov 18, 2026)**: Hand-rolled Python sandbox in `/guardrails/test_custom_code` bypassed via runtime bytecode manipulation (chained with `CVE-2026-47101`/`47102` for root container RCE & LLMjacking credential theft). **Mandatory Fix**: Upgrade to `litellm >= 1.83.11` / `1.83.14-stable` (`RestrictedPython` replacement), block `POST /guardrails/test_custom_code` at WAF/gateway, and rotate all AI provider API keys.
-      - **Linux Kernel Critical IPv4 TCP Use-After-Free (`CVE-2026-98432` — CVSS 9.8 Critical)**: Unauthenticated remote DoS/RCE triggered via crafted TCP SYN packets carrying IPv4 options (Timestamp / Record Route) racing connection setup across RHEL 8/9/10 and OpenShift 4.21 `ose-rhel-coreos` (`RHSA-2026:95408`).
-      - **NGINX HTTP/2 "NGINX2Root" Flaws (`CVE-2026-123007` & `CVE-2026-123633` — Nov 2026)**: Integer underflow in HTTP/2 flow control causing heap buffer overflow/RCE (`CVE-2026-123007`) and HTTP/2 upstream proxy draining UAF (`CVE-2026-123633`) affecting NGINX OSS & Plus.
-      - **Podman & Container Archive Escape (`RHSA-2026:93464` / `CVE-2025-11395`, `RHSA-2026:98554` / Go `CVE-2026-33818`, `CVE-2026-56860`) + Docker `moby/go-archive` "CopyEscape" (`CVE-2026-17106`)**: Arbitrary host file write via malicious tar/OCI archives in `podman load` and `docker cp`, plus Go `encoding/asn1` & `net/url` DoS; upgrade RHEL 10 Podman (`sudo dnf upgrade podman podman-remote podman-docker`) and Docker Desktop.
-      - **Additional Nov 13–18 CISA KEV Additions**: **Perforce Puppet Enterprise (`CVE-2026-115731`, CVSS 9.4, Nov 17)** untrusted deserialization RCE; **Check Point Gaia OS (`CVE-2026-123039`, Nov 13)** DynamicCLI local root socket LPE; **UnrealIRCd (`CVE-2026-114713`, Nov 13)**; **Synology DSM (`CVE-2024-10441`, Nov 18)**; **Apache Axis (`CVE-2026-90436`, Nov 18)**; **REDCap (`CVE-2026-90817`, Nov 18)**.
+      - **Linux Kernel Critical IPv4 TCP Use-After-Free (`CVE-2026-98432` / `RHSB-2026-016` — CVSS 9.8 Critical)**: Unauthenticated remote DoS/RCE triggered via crafted TCP SYN packets carrying IPv4 options (Timestamp / Record Route) racing connection setup across RHEL 8/9/10 (`RHSA-2026:93414`) and OpenShift 4.21/4.22 `ose-rhel-coreos` (`RHSA-2026:95408`). If reboot is temporarily deferred, apply Red Hat's `nftables` workaround filtering incoming IPv4 packets with unusual IP options.
+      - **NGINX HTTP/2 "NGINX2Root" & Cisco Third-Party Advisories (`CVE-2026-123007`, `123633`, `113425`, `121810`) + ClamAV DoS**: Integer underflow in HTTP/2 flow control causing heap buffer overflow/RCE (`CVE-2026-123007`) and HTTP/2 upstream proxy draining UAF (`CVE-2026-123633`), alongside Cisco-tracked NGINX mail/HTTP RCE advisories (`CVE-2026-113425`, `CVE-2026-121810`) and **ClamAV DoS** vulnerabilities affecting Cisco Secure Endpoint Connectors on Windows, Linux, and macOS.
+      - **Podman 5.8.x, Go Stdlib & Container Runtime Escapes (`RHSA-2026:100547` / `RHSA-2026:98554` / `97533` / `93464`) + Docker "CopyEscape" (`CVE-2026-17106`)**: Resolves Go stdlib DoS/MitM flaws (**`CVE-2026-78667`** `net/http` Range header DoS, **`CVE-2026-97031`** `crypto/tls` ECH outer extension DoS, **`CVE-2026-111943`** `crypto/x509` untrusted intermediate cert MitM, **`CVE-2026-46597`** `golang.org/x/crypto/ssh` AES-GCM DoS, `CVE-2026-33818`, `CVE-2026-56860`), **CRI-O `bind_mount_prefix` intermediate symlink bypass (`CVE-2026-76061`)**, **`sssd` protocol negotiation null-pointer dereference (`CVE-2026-127101`)**, rootless `podman-remote save` / `podman rm` Buildah mount cleanup bugs, TLS/mTLS on Podman API sockets, and malicious tar/OCI archive write (`CVE-2025-11395`). Upgrade RHEL 8/9/10 Podman (`sudo dnf upgrade podman podman-remote podman-docker`) and Docker Desktop.
+      - **Additional Nov 13–22 CISA KEV & `r/netsec` / `r/cybersecurity` Intelligence**: **Perforce Puppet Enterprise (`CVE-2026-115731`, CVSS 9.4, Nov 17)** untrusted deserialization RCE; **Check Point Gaia OS (`CVE-2026-123039`, Nov 13)** DynamicCLI local root socket LPE; **UnrealIRCd (`CVE-2026-114713`, Nov 13)**; **Synology DSM (`CVE-2024-10441`, Nov 18)**; **Apache Axis (`CVE-2026-90436`, Nov 18)**; **REDCap (`CVE-2026-90817`, Nov 18)**; active **PHP2Shell (`CVE-2026-109618`/`109619`)** Mirai-loader exploit waves; **Anthropic Project Glasswing / Mythos** CVE floods (VulnCheck KEV-over-CVSS prioritization); **GitHub Actions & npm hook credential-stealing supply-chain attacks**; and **eBPF memory histograms + ML pressure scoring** for zero-day memory-corruption detection (`r/netsec` Nov 2026).
 - **CSAF 2.0/3.0 JSON Feeds**: Automated parsing of Common Security Advisory Framework machine-readable feeds to pinpoint first-fixed software versions.
 - **DefectDojo v2/v3 Aggregation**: Automated vulnerability deduplication, SLA breach alerting, and CVE tracking across scanned subnets.
 - **NetBird Zero-Trust Network Access (`netbirdio/netbird`)**: Extend the C# security monitor to enforce WireGuard-based endpoint posture verification:
@@ -120,8 +125,8 @@ Ingest and prioritize critical event IDs mapped to MITRE ATT&CK techniques:
 | **Event ID 22** | DNS Query | **T1071.004** (DNS Tunneling) | High-entropy DNS queries or subdomains exceeding 45 characters. |
 | **Event ID 25** | Process Tampering | **T1055** (Process Hollowing) | External modification of process memory sections or image headers. |
 
-### Automated Remediation & Scanner Orchestration
-Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, and `fix_event_viewer_issues.ps1`) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through **November 19, 2026 02:32:07 AM**: Engine `1.1.26100.4`, DAT `1.463.367.0` updated `11/18/2026 7:23:43 PM`, 508 active processes inspected, 15 persistence/autostart locations audited including `SteamPBZPerformanceWatcher`, 0 threats, 7.98s), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access:
+### Automated Remediation, Scanner Orchestration & RustText Log Inspector
+Integrate `windows event viewer` tools (`Invoke-McAfeeScanner.ps1`, `Manage-McAfeeAlerts.ps1`, `fix_event_viewer_issues.ps1`, and newly deployed **`Open-EventLogInRustText.ps1`**) into an automated response pipeline. Scheduled hourly and daily McAfee scans are actively executing (verified active through **November 23, 2026 02:31 AM** with continuous hourly `McAfeeScan_Hourly_*.log` and daily `McAfeeScan_Daily_*.log` telemetry), paired with Sysmon Event ID 10 alerts for unauthorized LSASS handle access and SHA-256 verified **`RustText v2.5.0`** (`Illson/RustText`, staged in `Popular Github Projects/agent-tools/rusttext/RustText.zip`) for high-speed large-file event log tailing, severity filtering, and JSON/JSONL validation:
 ```powershell
 # Automated Sysmon & McAfee Alert Triage Pipeline
 $Alerts = Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Sysmon/Operational'; ID=1,3,10} -MaxEvents 50
@@ -276,7 +281,7 @@ flowchart TD
 ### Ghidra 12.2 (`JDK 25+` Required) & Tooling Innovations
 1. **PyGhidra (Official CPython 3 Integration)**:
    - **Ghidra 12.2 Baseline (Oct/Nov 2026)**: Upgrades minimum runtime from JDK 21 (Ghidra 12.1) to **JDK 25+** (Java Compact Object Headers, updated Jetty 12; ensure JDK 25 patches **CVE-2026-114938 Java4Shell** or guard x86-64 launches with `-XX:UseAVX=2`). Retains native Python 3 scripting via JPype (`./support/pyghidra`) with `numpy`, `capstone`, `pefile`, and `z3-solver`.
-   - **`GhidrAssistMCP` Extension**: Native FastMCP server plugin inside Ghidra exposing functions, decompiled pseudocode, data types, and cross-references over SSE/HTTP directly to AI agents (build with `./gradlew` against `JAVA_HOME` JDK 25 and `GHIDRA_INSTALL_DIR`).
+   - **`GhidrAssistMCP`, `morluto/rea` (`rea-agents-6.10.1`) & `erkamyaman/rust-anything` (`v2.1.0`/`v3.3.0`) Integration**: Native FastMCP server plugin inside Ghidra exposing functions, decompiled pseudocode, data types, and cross-references over SSE/HTTP directly to AI agents (build with `./gradlew` against `JAVA_HOME` JDK 25 and `GHIDRA_INSTALL_DIR`); pair with GitHub's #1 trending **`morluto/rea`** (`npx rea-agents setup`, 473.6k stars in `Popular Github Projects/reports/2026-11-22.md`) for clean-room JS/Electron/.NET/website and Ghidra-backed native binary reverse engineering, plus newly integrated **`REA/tools/Invoke-RustAnythingAudit.ps1`** (SHA-256 verified `rust-anything v2.1.0` staged in `agent-tools/rust-anything/`, `v3.3.0` upstream + `EL4CTEO/fast-anything v0.6.1`) for incremental behavioral trace verification (`record -> bridge -> diff -> lift`) and clean-room Rust porting alongside Xbox Series static recompilation research (**`ItsNotRexed/Leonida`**, **`R0Y00/Xbox2Windows`**, **`omonkeyz/xbox-emulator`**).
    - Includes both an interactive GUI CPython plugin and the `./support/pyghidra` CLI wrapper for automated headless analysis.
 2. **JIT-Accelerated P-Code Emulator (`JitPcodeEmulator`)**:
    - Standard P-code interpretation is slow during heavy unpacking, deobfuscation, and crypto loops.
@@ -528,10 +533,10 @@ The `openshift` repository is an offline-capable, interactive platform engineeri
   - **Post-Quantum Cryptography (PQC) Control-Plane TLS**: Introduces `X25519MLKEM768` hybrid key exchange (via Go 1.24) securing internal TLS communication across API server, kubelet, and scheduler channels against "harvest now, decrypt later" threats.
   - **OVN-Kubernetes Native BGP (`FRR-K8s`) & EVPN Support**: Integrates FRRouting 10+ via `FRRConfiguration` CRDs in `openshift-frr-k8s`, enabling Ethernet VPN (EVPN) extensions for Primary Cluster User-Defined Networks (`P-CUDNs`) with both **MAC-VRF** (L2 stretching for VM live migration) and **IP-VRF** (L3 tenant routing) over single VXLAN encapsulation (eliminating Geneve-in-VXLAN double encapsulation).
   - **GA Kubernetes Gateway API & AI Orchestration**: Native Ingress Operator lifecycle support for `GatewayClass`, `Gateway`, `HTTPRoute`, `GRPCRoute`, and `ReferenceGrant` (`gateway.networking.k8s.io/v1`), native Sidecar containers GA (`initContainers` with `restartPolicy: Always`), and `LeaderWorkerSet` GA + Gateway API Inference Extension for distributed AI serving.
-- **OpenShift 4.21 (Kubernetes 1.34 & CRI-O 1.34)**:
+- **OpenShift 4.21 / 4.22 (Kubernetes 1.34+ & CRI-O 1.34+)**:
   - **Dynamic Resource Allocation (DRA) GA**: Replaces rigid count-based device plugins (`nvidia.com/gpu: 1`) with CEL expression-driven GPU scheduling (matching exact VRAM thresholds $\ge 40\text{GB}$, compute capability, and NVLink/NUMA topology).
   - **Converged AI/ML & Virtualization Fabric**: Native **Kueue** queueing, **JobSet Operator** enhancements for distributed multi-node AI training, and unified VM + container orchestration.
-  - **Nov 2026 Kernel & CSI Node Errata**: Apply `ose-rhel-coreos` (`RHSA-2026:95408`) remediating **CVE-2026-98432** (CVSS 9.8 Linux kernel IPv4 TCP UAF) and CSI driver advisory **CVE-2026-85781**; verify NGINX Ingress/sidecar HTTP/2 builds against **CVE-2026-123007 / 123633**.
+  - **Nov 2026 Kernel, Operator, CRI-O & CSI Node Errata**: Apply `ose-rhel-coreos` (`RHSA-2026:95408` / `RHSB-2026-016`) remediating **CVE-2026-98432** (CVSS 9.8 Linux kernel IPv4 TCP UAF, actively tracked on OpenShift 4.22 RHCOS nodes), **CRI-O `bind_mount_prefix` intermediate symlink bypass (`CVE-2026-76061`)**, **`sssd` null-pointer dereference (`CVE-2026-127101`)**, OpenShift Sandboxed Containers `systemd-gpt-auto-generator` confidential peer-pod swap/partition leakage hardening, **`brace-expansion` (`CVE-2026-14257` / `69152`)** & Go HTTP/2 (**`CVE-2026-33814`**) operator patches, and CSI driver advisory **CVE-2026-85781**; verify NGINX Ingress/sidecar HTTP/2 builds against **CVE-2026-123007 / 123633**.
 
 ```mermaid
 flowchart TD
@@ -917,10 +922,10 @@ The project provides a comprehensive PowerShell test suite enforcing pre-flight 
 - **WSL Feature Registry**: Validates Windows features `Microsoft-Windows-Subsystem-Linux` and `VirtualMachinePlatform`.
 - **WSL Distro Health**: Checks `wsl -l -v` status for running distributions (Ubuntu, docker-desktop, docker-desktop-data).
 - **Docker Daemon Probe**: Verifies named pipe `\\.\pipe\docker_engine` connectivity and Docker CLI version (`docker version`).
-- **Live Container Execution**: Spins up transient test container (`hello-world` or `alpine`) and validates clean exit code 0.
+- **Live Container Execution**: Spins up transient test container (`hello-world` or `alpine`) and validates clean exit code 0. *(Host Baseline Note verified `2026-11-21`: `Docker Desktop` is currently not installed on the local Windows workstation—install via `winget install Docker.DockerDesktop` or route `DOCKER_HOST` to WSL2 rootless Podman 5.8.x).*
 
-#### 4. Rootless Podman 5 vs. Docker Desktop Interoperability
-- **CLI Context Bridging**: Easily switch between standard Docker Desktop and rootless Podman 5 without modifying scripts:
+#### 4. Rootless Podman 5.8+ vs. Docker Desktop Interoperability
+- **CLI Context Bridging**: Easily switch between standard Docker Desktop and rootless Podman 5.8.x (`RHSA-2026:100547` / `98554` / `97533`, TLS/mTLS API sockets & Go `net/http` `CVE-2026-78667`, `crypto/tls` `CVE-2026-97031`, `crypto/x509` `CVE-2026-111943`, Go SSH `CVE-2026-46597` patched) without modifying scripts:
   ```powershell
   # Target Docker Desktop engine:
   $env:DOCKER_HOST = "npipe:////./pipe/docker_engine"
@@ -933,7 +938,7 @@ The project provides a comprehensive PowerShell test suite enforcing pre-flight 
 
 ### Cross-Portfolio Synergy
 - **With `RHCSA Exam200` & `openshift`**: Provides the foundational local container testing environment before transitioning manifests into Podman Quadlets or OpenShift Ingress routes.
-- **With `vulnerability management` & `MY Security`**: Local container images and Alpine base layers are actively audited against Cisco openVuln feeds, **CVE-2026-123158 ("SSHole")**, **`CVE-2026-17106` ("CopyEscape" in `moby/go-archive`)**, and **Podman `RHSA-2026:93464`/`98554`** prior to registry promotion.
+- **With `vulnerability management` & `MY Security`**: Local container images and Alpine base layers are actively audited against Cisco openVuln feeds, **CVE-2026-123158 ("SSHole")**, **`CVE-2026-76061`** (CRI-O symlink bind-mount bypass), **`CVE-2026-17106` ("CopyEscape" in `moby/go-archive`)**, and **Podman `RHSA-2026:100547` / `93464` / `98554`** prior to registry promotion.
 - **With `Scripting`**: Leverages PowerShell diagnostic cmdlets (`Test-DockerEnvironment.ps1`) adhering strictly to Approved Verbs and object-streaming guidelines.
 - **With `deploy`**: Synchronizes container health status into the master deployment telemetry suite.
 
@@ -942,11 +947,11 @@ The project provides a comprehensive PowerShell test suite enforcing pre-flight 
 ## 11. OpenSource: Enterprise Open-Source Program Office (OSPO), Supply Chain Security & Upstream Governance Hub (`opensource`)
 
 ### Architectural Scope (`G:\My Drive\Antigravity\Projects\opensource`)
-The **`opensource`** project serves as the centralized Open-Source Program Office (OSPO), software supply chain security control plane, and upstream contribution pipeline across the entire Antigravity 79-project ecosystem. It establishes standards-based governance for license compliance, automated Software Bill of Materials (SBOM) generation, OpenSSF Scorecard posture checks, SLSA Level 3 build provenance, and automated upstream fork synchronization.
+The **`opensource`** project serves as the centralized Open-Source Program Office (OSPO), software supply chain security control plane, and upstream contribution pipeline across the entire Antigravity **87-project** ecosystem. It establishes standards-based governance for license compliance, automated Software Bill of Materials (SBOM) generation, OpenSSF Scorecard posture checks, SLSA Level 3 build provenance, and automated upstream fork synchronization.
 
 ```mermaid
 flowchart TD
-    Portfolio[Antigravity 79-Project Portfolio] --> Scanner[OSPO Compliance Scanner: ospo_governance.py]
+    Portfolio[Antigravity 87-Project Portfolio] --> Scanner[OSPO Compliance Scanner: ospo_governance.py]
     Scanner --> SBOM[Automated SBOM Generator: CycloneDX 1.6 & SPDX 3.0]
     Scanner --> License[OpenChain ISO/IEC 5230 Engine: License Compliance & Compatibility]
     Scanner --> OpenSSF[OpenSSF Scorecard & SLSA L3 Supply Chain Verifier]
@@ -972,8 +977,8 @@ Standardizes automated SBOM generation adhering to **CycloneDX v1.6 (JSON)** and
 The OSPO scanner evaluates all portfolio repositories against 18 automated OpenSSF Scorecard security checks:
 - Branch-Protection (enforcing code review and status checks before merge).
 - Binary-Artifacts (verifying zero compiled executables or JARs committed to git history).
-- Dangerous-Workflow (auditing untrusted GitHub Actions trigger contexts).
-- Pinned-Dependencies (verifying hash-pinned dependencies in action workflows and dockerfiles).
+- Dangerous-Workflow (auditing untrusted GitHub Actions trigger contexts and defending against `r/cybersecurity` Nov 2026 GitHub Actions & npm hook credential-stealing supply-chain campaigns).
+- Pinned-Dependencies (verifying SHA-pinned dependencies in action workflows, npm lifecycle scripts, and containerfiles).
 - SAST & CodeQL integration.
 - Assigns each project a cryptographic health rating from 0.0 to 10.0 to audit supply chain risk.
 

@@ -10,13 +10,16 @@
 - [agent 365](file:///G:/My%20Drive/Antigravity/Projects/agent%20365)
 - [ai defense](file:///G:/My%20Drive/Antigravity/Projects/ai%20defense)
 - [MCP](file:///G:/My%20Drive/Antigravity/Projects/MCP)
+- [geminipc](file:///G:/My%20Drive/Antigravity/Projects/geminipc)
+- [Neon- orchestrator](file:///G:/My%20Drive/Antigravity/Projects/Neon-%20orchestrator)
 
 ---
 
 ## 1. How to train your AI: Local LLM Engine & Quantization Upgrade
 
 ### Cutting-Edge Stack (NVIDIA & GitHub Frontier 2026)
-- **NVIDIA TensorRT-LLM 1.4 / 1.5+ (`NVIDIA/TensorRT-LLM`)**: Major architectural release eliminating legacy static engine-compilation barriers. Features PyTorch-native execution with high-throughput NVIDIA CUDA kernels, chunked prefill, in-flight batching, native sparse MLA (Multi-head Latent Attention) FMHA support for DeepSeek architectures, unified 4-bit KV cache storage (NVFP4 MLA) with FlashInfer CuTe DSL backends, native support for **DFlash 2** speculative decoding alongside model-specific MoE backend overrides, **KV-Cache Manager V2** enabled by default for Llama-family and Llama-4 architectures, and a C++ TRTLLM-based standard sampler with an explicit `sampler_type` argument inside `SamplingConfig`.
+- **NVIDIA TensorRT-LLM 1.4 / 1.5+ & Rubin (SM107) Preview (`NVIDIA/TensorRT-LLM`)**: Eliminates legacy static engine-compilation barriers with PyTorch-native execution, chunked prefill, in-flight batching, native sparse MLA (Multi-head Latent Attention) FMHA support for DeepSeek-V4 architectures (via CuTe DSL/FlashInfer integrations), unified 4-bit KV cache storage (NVFP4 MLA), **Rubin (SM107) preview** alongside Blackwell, disaggregated serving (**gen-first scheduling** and **conversation affinity routing**), **EAGLE3 dynamic trees**, **PARD drafters**, DFlash 2 speculative decoding, **KV-Cache Manager V2** enabled by default for Llama-family and Llama-4 architectures, and a C++ TRTLLM-based standard sampler (`sampler_type` in `SamplingConfig`).
+- **CUTLASS `4.9.0` & CuTe DSL (Nov 13, 2026)**: Expands NVIDIA Rubin and Blackwell low-latency kernels, FP6 throughput, and TMA loads with validity reporting; enables direct `@cute.jit`, `@cute.kernel`, and `cute.compile` execution without opt-in flags alongside improved `jax.vmap` + `cutlass_call` dynamic host argument casting.
 - **NVIDIA Blackwell NVFP4 Micro-Block Scaling (`NVIDIA/Model-Optimizer`)**: 
   - NVIDIA ModelOpt delivers cutting-edge Post-Training Quantization (PTQ) supporting **NVFP4** (on Blackwell B200 / GB200 / GB300) and **FP8/AWQ** (on Ada Lovelace RTX 40-series and Ampere RTX 30-series).
   - **16-Element Micro-Block Architecture**: Unlike coarse block formats (such as 32-element OCP MXFP4), NVFP4 groups weights and activations into tight **micro-blocks of 16 values**. This fine-grained grouping tracks local tensor variance and prevents accuracy posterization cliffs.
@@ -39,17 +42,18 @@
   - Eliminates accuracy cliffs on 4-bit student models by minimizing KL-divergence against frozen BF16 teacher activations during fine-tuning, preserving complex code syntax and multi-turn reasoning abilities.
 - **TensorRT-LLM v1.4.x / Blackwell SM100 & SM103 (`TLLM_PRIMTS_WARM_WORKERS`, PrimTS Sparse MLA & NVFP4 Modeling V2)**: TensorRT-LLM expands explicit NVFP4 modeling V2 targets for GB300/SM103 (`GLM-5.2`, `MiniMax-M3` low-latency decode), pairs PrimTS native sparse MLA FMHA CuTe-DSL kernels on SM100 (B200/GB200), and exposes `TLLM_PRIMTS_WARM_WORKERS` alongside `TRTLLM_FLASHINFER_WORKSPACE_PER_PROCESS` to parallelize first-launch JIT CuTe-DSL compilation caches under strict MPI worker memory boundaries.
 - **vLLM Blackwell & MoE Backend Standardization**:
-  - `VLLM_NVFP4_GEMM_BACKEND` is deprecated in favor of explicit `--linear-backend` CLI flags (`cutlass`, `flashinfer_cutedsl`, `flashinfer_trtllm`, `marlin`), paired with `--moe-backend flashinfer_moe_ep_cutedsl` (`flashinfer.moe_ep` CuTe-DSL MoE Expert Parallelism kernels) and `trtllm-gen` 4-bit GEMM/MoE backends with default KV block-size `64` and extensible KV caching enabled by default.
+  - `VLLM_NVFP4_GEMM_BACKEND` is deprecated in favor of explicit `--linear-backend` CLI flags (`cutlass`, `flashinfer_cutlass`, `flashinfer_cutedsl`, `flashinfer_trtllm`, `flashinfer_cudnn`, `marlin`), paired with `--moe-backend flashinfer_moe_ep_cutedsl` (`flashinfer.moe_ep` CuTe-DSL MoE Expert Parallelism kernels) and `trtllm-gen` 4-bit GEMM/MoE backends with default KV block-size `64` and extensible KV caching enabled by default.
+  - **NVIDIA Vera Rubin NVL72, Nemotron 3.5 & NIM 2.1.6 (Nov 2026)**: MLPerf Training v6.1 debuted **Vera Rubin NVL72** (up to 2x performance/GPU over GB300 NVL72 with NVLink 6 spines and ConnectX-9 SuperNICs); **Nemotron 3.5 Super VL** and **Nemotron for Science** fuse MoE + Mamba SSM + Attention; **NVIDIA NIM 2.1.6** standardizes vLLM 0.32.0 + SGLang 0.5.22 cached runtime manifests.
   - **ModelOpt Triton Compatibility**: Upstream `NVFP4_DEFAULT_CFG` fake-quantization resolved late-2026 Triton block-pointer `NotImplementedError` bugs.
-- **Unsloth Dynamic V3.1 Quantization & OpenRouter HF Routing (`r/LocalLLaMA` Nov 2026)**: Dynamic selective-precision GGUF quantization for frontier open-weight coding/reasoning models (e.g. Qwen3.8-27B, DeepSeek-V4.1-Flash), yielding +5%–15% agentic benchmark gains (Terminal-Bench / DeepSWE) with reduced token and VRAM footprints on 12 GB–24 GB GPUs; Hugging Face Inference Providers increasingly route via OpenRouter for dynamic price/speed failover, while Google **Gemini 4** and **Omni Flash** multimodal models power browser side-panel agents.
+- **Unsloth Dynamic V3.1, `Qwen 3.8 Flash Next`, `LiquidAI LFM2.5-24B-A2B` & OpenRouter HF Routing (`r/LocalLLaMA` & GitHub Nov 2026)**: Dynamic selective-precision GGUF quantization for frontier open-weight coding/reasoning models (**`Qwen 3.8 Flash Next`**, **`LiquidAI LFM2.5-24B-A2B`** + Hermes on commodity iGPUs, **`SenseNova-Loop-9B-Preview`**, DeepSeek-V4.1-Flash), yielding +5%–15% agentic benchmark gains (Terminal-Bench / DeepSWE) with reduced token and VRAM footprints on 12 GB–24 GB GPUs; Hugging Face Inference Providers route via OpenRouter for dynamic price/speed failover, while Google **Gemini 4**, **Omni Flash**, and **`LiteRT.js` WebGPU** power browser side-panel agents alongside **`sybil-solutions/inference-optimisation-skill`**.
 - **Cold-Page Compression & RoPE Precision Control**:
   - TensorRT-LLM integrates memory-saving cold-page compression for KV caches and granular Rotary Position Embedding (RoPE) precision controls. For code models, configure `skip_rope_quantization=True` or `2FP4` (`nvfp4_residual_dim=64`) to protect mathematical precision across 16k–32k context lengths.
 - **Speculative Decoding with EAGLE-3, DFlash2 & MTP Draft Heads**:
   - Boost decoding speeds by 2.5× to 3.5× tokens/second on RTX Ada Lovelace and Blackwell GPUs.
   - Aligns target NVFP4 weights with Multi-Token Prediction (MTP) and DFlash draft architectures on vLLM.
   - In mixed-precision MoE architectures (such as DeepSeek-R1 / DeepSeek-V4 variants), ModelOpt quantizes MoE expert layers into NVFP4 while maintaining attention projections, shared experts, routers, and MTP verification heads in FP8/BF16, utilizing `VLLM_USE_FLASHINFER_MOE_FP4=1` for accelerated kernel execution without shape mismatch errors.
-- **vLLM v0.33.0 – v0.34.0 Core Engine Architecture (`vllm-project/vllm`)**:
-  - **v0.34.0 Engine & KV Cache Overhaul**: Promotes **Model Runner V2** to the default execution engine (deprecating Model Runner V1 entirely), enables **extensible KV caching by default** (dynamically sizing the KV cache from genuinely free post-warmup GPU memory), and updates default block-size configurations for higher memory utilization.
+- **vLLM `v0.34.0` Core Engine Architecture (`vllm-project/vllm`, Released Nov 16, 2026)**:
+  - **v0.34.0 Breaking Defaults & Engine Overhaul**: Completely removes **Model Runner V1** (`VLLM_USE_V2_MODEL_RUNNER=0` now fails startup) in favor of **Model Runner V2** exclusively; enables **extensible KV caching by default** (sizing KV cache dynamically from genuinely free GPU memory *after* CUDA graph capture and warmup); increases default KV block size from `16` to **`64`**; changes `gpu_memory_utilization` default to **`1.0`** (omit unless sharing GPUs); requires **`huggingface_hub >= 2.0.0`**; and adds day-0 support for 10 new models including **Mistral Large 4**, **MiniMax-M3.1-Flash**, and **Nemotron-3.5-Transcribe**.
   - **LibTorch Stable ABI Migration**: vLLM has standardized its CUDA build pipeline on the LibTorch Stable ABI, allowing developers and clusters to upgrade underlying PyTorch versions seamlessly without requiring a full, time-consuming recompilation of vLLM.
   - **Runtime & Environment Upgrades**: Native support for **PyTorch 2.14**; dropped legacy CUDA 12.9 environments in favor of unified CUDA 12.8 / 13.x toolchains.
   - **Concurrent Worker Startup & Reliability**: Optimized engine worker initialization for Tensor Parallelism (`TP > 1`) and integrated a native watchdog monitor that automatically dumps full stack traces if engine or worker processes hang.
@@ -283,6 +287,11 @@ flowchart LR
 
 ## 4. Is This AI: Multi-Modal Detection & Verification
 
+### Implemented Provenance & Metadata Engine (`is this AI/image_analyzer.py`)
+- **Hikaku `v0.1.0` C2PA/IPTC/XMP Integration (`2026-11-22 09:25`, staged in `Popular Github Projects/agent-tools/hikaku-extension/`)**:
+  - Expanded `KNOWN_AI_SIGNATURES` across 35+ generators (Midjourney, DALL-E, GPT-Image, Sora, ComfyUI, Flux.1, Black Forest Labs, Imagen, Seedream, Kling, Hailuo, Grok, Recraft).
+  - Embedded **IPTC / C2PA Digital Source Type** detection (`SOURCE_TYPE_RE`) differentiating AI declarations (`trainedAlgorithmicMedia`, `compositeWithTrainedAlgorithmicMedia`, `algorithmicMedia`, `compositeSynthetic`) from authentic hardware (`digitalCapture`, `computationalCapture`, `negativeFilm`, `positiveFilm`), plus self-declared AI provenance phrase matching (`AI_PHRASE_RE`), EXIF camera verification, and standard AI canvas dimension heuristics.
+
 ### Frontier Detection Stack (Google, arXiv & GitHub)
 - **Text Analysis**:
   - **Perplexity & Burstiness**: Calculate cross-entropy variance using a frozen local language model (GPT-2 XL / Llama-3.2-1B). AI text exhibits uniform low perplexity and low sentence length variance (burstiness).
@@ -318,8 +327,8 @@ flowchart TD
      - **Tandem Bridge Pipeline (`tandem_bridge.py`)**: Asynchronous Python bridge connecting Antigravity task dispatches to `http://127.0.0.1:11434` with streaming token callbacks, fallback retry logic, and structured JSON output enforcement.
      - **One-Click PowerShell Invoker (`Invoke-OllamaTandem.ps1`)**: Standardized cmdlet for invoking local reasoning passes with automatic model fallback (`antigravity-skills:latest` -> `qwen2.5-coder:14b` -> `llama3.2:latest`).
 2. **Dynamic Skill & Project Knowledge Compilation**:
-   - Automated ingestion pipeline via `sync_skills_to_ollama.py` auto-compiling over **636 KB of skills knowledge** (`skills_knowledge_base.json`) and **51 KB of project blueprints** (`projects_knowledge_base.json`) directly into a custom 86 KB `Modelfile` (`antigravity-skills:latest`, refreshed `2026-11-18 04:02`), granting local models comprehensive situational awareness of all **81 workspace projects** without internet access.
-   - **Agent Work Surfaces & Persistent Context (`claude-mem` / `mattpocock/skills` / FastMCP 4.2 SEP-2640)**: Adopt the mid-Nov 2026 GitHub "Agent Work Surfaces" pattern—pair **`thedotmack/claude-mem`** style cross-session activity compression (SQLite/Chroma) with FastMCP 4.2 `SkillsDirectoryProvider` (`skill://` resources) so local Ollama and cloud agents share identical skill definitions and persistent memory without session amnesia or manual drift.
+   - Automated ingestion pipeline via `sync_skills_to_ollama.py` (refreshed **`2026-11-22 04:01`** on **`ollama/ollama` v0.40.17** lineage, updating `Modelfile`, `skills_directory.md`, `projects_knowledge_base.json`, and `skills_knowledge_base.json`) auto-compiling skills knowledge and project blueprints directly into a custom `Modelfile` (`antigravity-skills:latest`), granting local models comprehensive situational awareness of all **87 cataloged workspace projects** without internet access.
+   - **Agent Work Surfaces, Self-Hosted Gateways & Persistent Context (`openclaw`, `deepseek-harness`, `hermes-agent`, `ponytail`, `claude-mem`, FastMCP 4.2 SEP-2640)**: Adopt the Nov 2026 GitHub "Agent Work Surfaces" pattern (`Popular Github Projects/reports/2026-11-22.md`)—pair **`openclaw/openclaw` (`v2026.11.6`, 395k stars)** local credential/memory gateways, **`deepseek-ai/deepseek-harness` (`dsh`, 285k stars)** Cordis plugin architecture, **`NousResearch/hermes-agent` (`v0.23.3`, 265k stars)** FTS5 cross-session skill creation, **`DietrichGebert/ponytail` (`v5.3.3`, 196k stars)** minimal-diff senior-dev discipline, and **`thedotmack/claude-mem`** activity compression with FastMCP 4.2 `SkillsDirectoryProvider` (`skill://` resources) so local Ollama, **`geminipc`**, and **`Neon- orchestrator`** share identical skill definitions and persistent memory without session amnesia.
 3. **Dedicated Ollama Model Context Protocol Server (`MCP/ollama-mcp`)**:
    - Deployed a standalone FastMCP Python server at `G:\My Drive\Antigravity\Projects\MCP\ollama-mcp` providing 6 specialized tools callable by any MCP client or Antigravity subagent:
      - `ollama_list_models`: Lists all locally pulled and compiled GGUF/Ollama models with parameter counts and quantization tags.
@@ -535,6 +544,18 @@ The newly unified MCP Baseline 2.0 establishes a mandatory standard across all w
    - **Patch & Diff Exporter**: 1-click JSON patch generation for committing hotfixes directly back to the workspace.
    - **MCP Tool Action Bridges**: Direct in-app triggers for Playwright/Puppeteer (E2E browser testing), Chrome DevTools (network/DOM inspection), Firecrawl (documentation scraping), Perplexity (live web search grounding), and Higgsfield (cinematic generative media).
    - **Automated Quality Gate**: Real-time compliance auditing for $100\text{vw} \times 100\text{vh}$ boundaries, High-Gloss Lacquer material aesthetics, and ergonomic touch targets ($\ge 32\text{px}$ / $48\text{dp}$).
+
+---
+
+## 10. Newly Initialized Agent Workspaces (`geminipc` & `Neon- orchestrator`) & Google `WebMCP`
+
+### 1. `geminipc` (Desktop Gemini Agent & Local Browser AI Bridge)
+- **Role**: Dedicated Windows desktop companion bridging **Gemini 3.5/4**, **Google ADK 2.0** graph orchestration & **Managed Agents API**, Google **`WebMCP`** (`navigator.modelContext.registerTool` exposing structured JavaScript functions & forms directly to browser agents instead of brittle DOM scraping), **Android 17 `AppFunctions` (Android MCP)**, and **`LiteRT.js`** (WebAssembly/WebGPU/WebNN on-device inference) with local `ollama-mcp` fallback for zero-cloud-leakage file operations.
+- **Immediate Scaffolding Target**: Initialize a Python 3.12 (`uv`) + FastMCP v4.2 service with strict `ai defense` path scoping and `Chrome` / `Edge` `navigator.modelContext.registerTool` WebMCP bindings.
+
+### 2. `Neon- orchestrator` (Multi-Agent DAG & Neon/PostgreSQL State Orchestrator)
+- **Role**: High-throughput multi-agent orchestration layer coordinating parallel workers across `agent 365`, `using ai agents for profit`, `Popular Github Projects`, and `deploy`, inspired by **Google ADK 2.0 + A2A Protocol**, **`stablyai/orca`** parallel git-worktree agent orchestration (staged in `agent-tools/orca/`), **`NousResearch/hermes-agent` (`v0.23.3`)** FTS5 memory, **`openclaw` (`v2026.11.6`)**, and **`EL4CTEO/fast-anything`** (`v0.6.1`) FFI hot-path profiling.
+- **Immediate Scaffolding Target**: Define an async DAG task router backed by SQLite/Neon state persistence, Ollama Tandem verification hooks, and `Ctrl+M` MCP Baseline 2.0 telemetry.
 
 
 

@@ -21,6 +21,9 @@
 - [youtube channels](file:///G:/My%20Drive/Antigravity/Projects/youtube%20channels)
 - [index folder](file:///G:/My%20Drive/Antigravity/Projects/index%20folder)
 - [1st grade learning](file:///G:/My%20Drive/Antigravity/Projects/1st%20grade%20learning)
+- [Motion](file:///G:/My%20Drive/Antigravity/Projects/Motion)
+- [Highschool basketball](file:///G:/My%20Drive/Antigravity/Projects/Highschool%20basketball)
+- [emulator and rom hunter](file:///G:/My%20Drive/Antigravity/Projects/emulator%20and%20rom%20hunter)
 
 ---
 
@@ -75,7 +78,10 @@ flowchart TD
      - Real-time ROM disassembly view, header inspection, and live patch injector supporting BPS/UPS and IPS delta patches.
    - **Tactile Audio Feedback & Soundbyte Suite**:
      - Curated audio soundbytes in `assets/soundbytes/` (including iconic Michael Jackson 'Hee-Hee' audio triggers) delivering punchy, visceral sound design for counter attacks, parries, and floor clears.
-- **Automated Studio Quality Gate (`Test-StudioQualityGate.ps1`)**: Strict pre-flight script auditing file integrity, WebGL rendering readiness, Meta Quest 3 / Xbox controller haptics, and engine launcher parity across UE5.8, Unity 6, and Godot 4.
+   - **ChessTube Studio (`chesstube_studio/` — Automated Chess.com-to-YouTube Pipeline)**:
+     - Production Python CLI (`cli.py`, `chesscom_api.py`, `renderer.py`, `music_rotator.py`, `obs_recorder.py`, `youtube_uploader.py`, `Start-ChessUploadWizard.ps1`, `chess_upload_catalog.json`, verified active through `2026-11-22 01:12`).
+     - Pulls recent Chess.com wins (`bullet`/`blitz`/`rapid`/`daily`), renders 30fps **16:9 (`1920x1080`)** + **9:16 Shorts (`1080x1920`)** with 4x-supersampled pieces, material advantage bar, live clocks, synthesized move/capture/check/checkmate SFX, pairs authentic *Yu Yu Hakusho* / *Rurouni Kenshin* tactical quotes and rotating nostalgic music tracks, generates `1280x720` winning-arrow thumbnails, and schedules YouTube Data API v3 uploads with pinned comments.
+- **Automated Studio Quality Gate & Procedural Ink Studio Splats (`Test-StudioQualityGate.ps1`, `tools/Invoke-InkStudioSplatGenerator.ps1`)**: Strict pre-flight script auditing file integrity, WebGL rendering readiness, Meta Quest 3 / Xbox controller haptics, and engine launcher parity across UE5.8, Unity 6, and Godot 4, plus newly added **`@shapeshift-labs/ink-studio`** CLI integration (`agent-tools/ink-studio/repo/cli/ink-studio.js`) for zero-dependency SDF sculpting and pixel-art Gaussian splat scene generation (`game studio` & `3d images`), aligned with GitHub trending **`threejs-skills`** / **`zhuyansen/awesome-3d-skills`**.
 - **Antigravity Engine Forge IDE (`engine_forge.html`, `engine_forge.js`, `Start-EngineForge.ps1`, `Launch_Engine_Forge.bat`)**:
   - Full-screen ($100\text{vw} \times 100\text{vh}$) AI Game Studio IDE unifying a Three.js PBR Viewport, Blueprint Node Graph (`combat` and procedural presets), Unreal Engine 5.8 MCP Bridge, GitHub AI Studio Multi-Agent Hierarchy (`Creative Director`, `Technical Director`, `Unreal 5.8 Specialist`, `Unity 6 (6000.4) Specialist`, `Godot 4.7 Specialist`, `AI & Combat Programmer`), and Udemy Game Dev Academy progress tracker.
   - *Immediate Frontier Upgrade*: Migrate `engine_forge.html` from legacy `three.min.js` (`r128` CDN fallback) to **Three.js r187** (`WebGPURenderer`, TSL, cube-target `PMREMGenerator`, EON rough diffuse BRDF) and wire its UE5.8 panel directly to Unreal Engine 5.8's official native **Unreal MCP Server**.
@@ -94,7 +100,8 @@ Modern UE5 games (Tekken 8, Black Myth: Wukong, etc.) utilize the **IoStore (Zen
 - **`retoc` & `UnrealReZen`**: Command-line utilities for packing, unpacking, and converting Zen containers for mod creation.
 - **Pak Mod Placement**: Inject cosmetic modifications into `Polaris/Content/Paks/~mods/`.
 - **Integrity Validation**: Automated SHA-1 and CRC32 checksum validation in `rom_tools.py` ensuring patches do not corrupt clean ROMs or game assets.
-- **Xbox PC GUI Dashboard (`xbox_pc_gui.html`)**: Interactive local dashboard to organize, preview, and toggle game mods across PC and emulated titles with real-time mod conflict resolution.
+- **Xbox PC GUI Dashboard & Grand ROM Palace 3D Studio (`xbox_pc_gui.html`, `tools/xbox_gui_server.py`, `tools/build_grand_rom_catalog.py`, `rom_studio_3d.html`, `rom_studio_engine.js`)**: Interactive local dashboard (`localhost:8888`) and Art Deco 3D cinema ROM studio managing a **759-game deduplicated retail ROM catalog across 18 consoles** (Dolphin `dolphin-2512-x64`, `ares v148`, PCSX2-Qt, RPCS3, DuckStation, ShadPS4, PPSSPP, Flycast, Mesen, NO$GBA, Ryujinx/Suyu) with 7-Zip auto-extraction and WinSta0 direct launch. Upgraded on **`2026-11-22 10:47`** with **4 vehicle traversal modes** (`foot`, **`kart` Hyper-Veloce X1**, **`hoverboard` Blue Star Aero-Blade**, `drone`), **3-tier Mini-Turbo drift boost** (`Blue`, `Orange`, `Ultra Chaos`), **Freeplay Basement & Neon Raceway lap/checkpoint portal**, and **Web Gamepad API Xbox controller** support.
+- **NVIDIA MotionBricks Smart-Primitives Kinematics (`rom_studio_motion.js` & `Motion` Project)**: Bridges NVIDIA Research's SIGGRAPH 2026 **MotionBricks** (`NVlabs/motionbricks`, staged in `Motion/https   hugging.txt` -> `townbox/motionbricks-playground`) generative character motion concepts (composable Smart Primitives, context-to-target damped pose blending, JSON trajectory playback) onto Three.js articulated Chao and Humanoid rigs inside Grand ROM Palace. Paired with newly initialized **`emulator and rom hunter`** for automated ROM/emulator curation, and tracking Nov 2026 GitHub Xbox Series static recompilation research (**`ItsNotRexed/Leonida`**, **`R0Y00/Xbox2Windows`**, **`omonkeyz/xbox-emulator`**).
 - **3D ROM Studio Launcher (`Start-3DROMStudio.ps1`, `Launch_3D_ROM_Studio.bat`)**: Dedicated PowerShell and batch launchers providing one-click startup for 3D cartridge inspection and live ROM modification directly inside `game mods` and `game studio`.
 
 ---
@@ -120,7 +127,10 @@ Migrate `word-defender-xr.html`, 3D studio environments, and procedural WebGL sc
   - **PMREM Cube Render Target Overhaul (`PR #34585`)**: Drops the legacy `CubeUV` atlas in favor of native cube render targets for `PMREMGenerator`, reducing image-based lighting (IBL) color discrepancies by 37%–82% versus Blender Cycles and restoring clean roughness ramps.
   - **EON Rough Diffuse BRDF (`PR #34379`)**: Adds the **Energy-preserving Oren-Nayar (EON)** rough diffuse BRDF model to `MeshPhysicalMaterial`, correcting energy loss on matte/stone/fabric surfaces.
   - **Cooperative `compileAsync()` Scheduling (`PR #34816`)**: Caps concurrent shader compilation at **16 pipelines in flight** and cooperatively yields back to the main thread after **~8 ms slices**, slashing warm-up load times for dense TSL/node scenes without frame-drop jank; completes removal of `r177`-deprecated `CubeUVReflectionMapping`.
-  - **Chrome 157 WebGPU Subgroup Controls & `three-live` AI-to-glTF**: Chrome 157 (Nov 2026) adds WebGPU subgroup size controls for compute shaders (`GaussianSplatMesh` `CountingSort`), while Google-backed `three-live` compilers serialize AI-generated 3D scripts cleanly into binary glTF assets.
+  - **Chrome 157 WebGPU Subgroup Controls, Android WebGPU & `three-live` AI-to-glTF**: Chrome 157 (Nov 2026) adds WebGPU subgroup size controls for compute shaders (`GaussianSplatMesh` `CountingSort`) and rolls out WebGPU on Android 12+ Qualcomm/ARM GPUs, while Google-backed `three-live` compilers serialize AI-generated 3D scripts cleanly into binary glTF assets.
+- **Meta Immersive Web SDK (`@iwsdk/core` 0.3.1), HavokPhysics WASM & `WorldTear` Passthrough AR (`VR creation apps/github-repos/WorldTear`)**:
+  - Deployed **WorldTear** (Invisibility Cape on Quest 3) using `@iwsdk/core` 0.3.1, `super-three@0.181.0`, **HavokPhysics WASM**, `vite-plugin-mkcert` HTTPS, and W3C **WebXR Raw Camera Access (`'camera-access'`)** via `XRWebGLBinding.getCameraImage(view.camera)` with zero-allocation per-frame stereo texture binding (`uIsRightEye` / `uCameraLeft` / `uCameraRight`) and ECS Verlet cloth simulation poked by `world.input.xrOrigin.indexTipSpaces.{left,right}`.
+  - *Immediate Upgrade Path*: Upgrade `WorldTear`'s `super-three@0.181.0` wrapper toward Three.js r187 WebGPU multiview once IWSDK supports `WebGPURenderer`, and preserve its `'camera-access'` raw-frame binding (distinct from IWSDK's `navigator.mediaDevices`-based `CameraSource` component).
 - **Node-Based `RenderPipeline`**: Unifies multi-pass rendering, bloom, and depth-of-field under a composable node pipeline without legacy `EffectComposer` pass chains.
 - **High-Pacing `Timer` Utility**: Deprecates legacy `THREE.Clock` in favor of the modern `Timer` module (`three/addons/misc/Timer.js`) for deterministic delta-time calculations.
 - **Zero-Allocation Memory Optimization**: Eliminates per-frame internal object allocations, avoiding garbage collection spikes and micro-stutters during intensive 60/120 FPS XR scenes.
@@ -195,7 +205,8 @@ flowchart TD
     FFmpeg --> FinalShort[Exported 9:16 YouTube Short]
 ```
 
-### High-Throughput FFmpeg NVENC Scripting
+### High-Throughput FFmpeg NVENC & Integrated Local Auto-Clippers
+- **Deployed NeonClipping Pipeline (`youtube shorts edit for gaming/Invoke-NeonClippingPipeline.ps1`) & `PeakCut`**: Added on `2026-11-22 09:27`, bridging victory clips from `Record my Gameplay/Recordings` directly into the audited local **`iamajmeena/neonclipping`** engine (`v1.0.0` staged in `agent-tools/neonclipping/repo/`, `v1.1.0` latest with audio-spike scoring & facecam layout detection) on `http://127.0.0.1:8770`, alongside **`haziqahmedqasmi/PeakCut`** and `smart_cutter.py` for automated climax detection and 9:16 vertical clip extraction.
 Execute sub-minute renders using NVIDIA GPU acceleration:
 ```bash
 # High-Efficiency AV1 NVENC Vertical Render with Burned-In Subtitles
@@ -223,7 +234,7 @@ ffmpeg -y -hwaccel cuda -hwaccel_output_format cuda -i input_clip.mp4 \
 ## 6. Mobile Gaming Architecture: Aether Ascent (`mobile game`)
 
 ### Project Core & Dual-Mode Combat Design
-The **`mobile game`** project (**Aether Ascent**) is a production React Native 0.88 and Expo mobile application blending strategic 3-row battlefield warfare with deep roguelike deckbuilding progression.
+The **`mobile game`** project (**Aether Ascent**) is a production **React Native `0.88.1`**, **Expo `~58.0.23`**, **React `19.3.0`**, and **TypeScript `~6.0.3`** mobile application blending strategic 3-row battlefield warfare with deep roguelike deckbuilding progression.
 
 ```mermaid
 flowchart TD
@@ -242,8 +253,8 @@ flowchart TD
 ```
 
 ### High-Performance Mobile Game Loop (React Native New Architecture & Nitro Modules)
-1. **React Native New Architecture (Fabric Renderer)**:
-   - Synchronous layout and UI rendering eliminate bridge latency during high-frequency touch interactions (card drag-and-drop, targeting reticles, and holographic foil tilting).
+1. **React Native New Architecture (Fabric Renderer — `r/reactnative` Nov 2026 Universal Default)**:
+   - Synchronous layout and UI rendering alongside Expo prebuilds/dev clients have become the universal default, eliminating bridge latency during high-frequency touch interactions (card drag-and-drop, targeting reticles, and holographic foil tilting).
 2. **Margelo Nitro Modules (`margelo/nitro`, package `react-native-nitro-modules`), Callstack Partnership & Nitrogen Code Generator**:
    - For complex turn calculations (AI minimax evaluation, card effect cascades, and cryptographic hashing), Nitro Modules introduce **Hybrid Objects** with direct C++ JSI bindings.
    - Swift Nitro modules compile directly to C++ (leveraging Swift 5.9+ direct C++ interop), eliminating Objective-C message-passing overhead entirely. Android utilizes `fbjni` for high-speed cross-language communication with Kotlin/Java.
@@ -665,7 +676,7 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
   - 1280x720 High-CTR YouTube Thumbnail with bold contrast text overlay (`assets/branding/`)
   - Vertical 9:16 Short MP4 (`output/*_SHORT_9x16.mp4`)
   - Horizontal 16:9 Long-Form Master Loop MP4 (`output/*_LONG_16x9.mp4`)
-- **Automation Tooling**:
+- **Automation Tooling (`character_rotation_catalog.json` refreshed `2026-11-22 22:29`)**:
   - `New-WhiteNoisePair.ps1`: Generates paired Short and Long-form assets with matching SEO tags, descriptions, and high-CTR thumbnail prompts.
   - `New-ChannelBranding.ps1`: Generates channel banner (`2560x1440`) and avatar (`800x800`).
   - `youtube_api_upload.py`: Headless YouTube Data API v3 uploader utilizing OAuth 2.0 refresh tokens, automatic category assignment (`24 - Entertainment` / `10 - Music`), and automated schedule queuing.
@@ -685,7 +696,7 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
 ## 13. Antigravity 3D Art Gallery Studio & Index Museum (`index folder`)
 
 ### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\index folder\3d-gallery-studio.html`)
-The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active **81-project** portfolio (including `Popular Github Projects` and `increase my bing score`) into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
+The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active **87-project** portfolio (88 directories including `Bookmark-favorites`, `Motion`, `Highschool basketball`, `geminipc`, `Neon- orchestrator`, `emulator and rom hunter`, `Popular Github Projects`, and `increase my bing score`) into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
 
 ```mermaid
 flowchart TD
@@ -766,10 +777,16 @@ flowchart TD
 - Executed via `Launch_TurboTypeRally_Godot.bat` or through `GameStudio_Hub.ps1`.
 
 #### 3. High-Performance React Native Mobile Engine (`G:\My Drive\Antigravity\Projects\mobile game\src\screens\TurboTypeScreen.tsx`)
-- Native mobile typing challenge integrated into the Aether Ascent / Mobile Game suite (`src/screens/TurboTypeScreen.tsx`, `src/data/turboTypeWords.ts`, `src/screens/LobbyScreen.tsx`).
-- **React Native 0.88 & Expo SDK 54 Innovations**:
+- Native mobile typing challenge integrated into the Aether Ascent / Mobile Game suite (`src/screens/TurboTypeScreen.tsx`, `src/data/turboTypeWords.ts`, `src/screens/LobbyScreen.tsx`, `Start-MobileGames.ps1`).
+- **React Native `0.88.1` & Expo `~58.0.23` Innovations**:
   - **W3C `EventTarget` Bubbling**: Standards-compliant event bubbling and capturing for touch and keyboard input events.
   - **Variable Fonts Support**: Utilizes `fontVariationSettings` on `<Text>` and `<TextInput>` for dynamic typographic scaling and kinetic letter bounce during rapid typing.
-  - **Precompiled iOS XCFrameworks**: Expo SDK 54 precompiled binary distribution cutting iOS clean-build times by up to 10x.
+  - **Precompiled iOS XCFrameworks & React 19.3.0**: Modern Expo SDK 58 + React 19.3.0 binary distribution cutting native clean-build times.
   - **Margelo Nitro Modules**: High-performance statically-compiled JSI bindings providing zero-copy state sharing between native audio/haptic threads and the React rendering tree.
 - Cross-linked with `mobile game` Lobby launcher and Anti-Slop touch ergonomics ($\ge 48\text{dp}$).
+
+---
+
+## 15. Newly Initialized Sports Analytics Workspace (`Highschool basketball`)
+- **Role**: Dedicated sports analytics, scouting, and game film / shot-chart workspace (`G:\My Drive\Antigravity\Projects\Highschool basketball`).
+- **Recommended Stack**: Python 3.12 (`uv`) + OpenCV court homography / shot-chart tracking + `100vw x 100vh` GitHub Primer dark telemetry console matching `aws-enterprise-baseline.css` and `MCP` Baseline 2.0 (`Ctrl+M` / `Ctrl+E`), with `iamajmeena/neonclipping` / FFmpeg `av1_nvenc` highlight reel clipping.
