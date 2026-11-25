@@ -24,6 +24,7 @@
 - [Motion](file:///G:/My%20Drive/Antigravity/Projects/Motion)
 - [Highschool basketball](file:///G:/My%20Drive/Antigravity/Projects/Highschool%20basketball)
 - [emulator and rom hunter](file:///G:/My%20Drive/Antigravity/Projects/emulator%20and%20rom%20hunter)
+- [Google Flow- Movies](file:///G:/My%20Drive/Antigravity/Projects/Google%20Flow-%20Movies)
 
 ---
 
@@ -79,7 +80,7 @@ flowchart TD
    - **Tactile Audio Feedback & Soundbyte Suite**:
      - Curated audio soundbytes in `assets/soundbytes/` (including iconic Michael Jackson 'Hee-Hee' audio triggers) delivering punchy, visceral sound design for counter attacks, parries, and floor clears.
    - **ChessTube Studio (`chesstube_studio/` — Automated Chess.com-to-YouTube Pipeline)**:
-     - Production Python CLI (`cli.py`, `chesscom_api.py`, `renderer.py`, `music_rotator.py`, `obs_recorder.py`, `youtube_uploader.py`, `Start-ChessUploadWizard.ps1`, `chess_upload_catalog.json`, verified active through `2026-11-22 01:12`).
+     - Production Python CLI (`cli.py`, `chesscom_api.py`, `renderer.py`, `music_rotator.py`, `obs_recorder.py`, `youtube_uploader.py`, `Invoke-ChessAutoUpload.ps1`, `Start-ChessUploadWizard.ps1`, `chess_upload_catalog.json`, verified active through **`2026-11-24 00:49`** with newly rendered `chammmm00_vs_Furiousityy_Checkmate`, `chammmm00_vs_kingg72637383_Checkmate`, and `chammmm00_vs_ChuckieCupczech_Checkmate` packages).
      - Pulls recent Chess.com wins (`bullet`/`blitz`/`rapid`/`daily`), renders 30fps **16:9 (`1920x1080`)** + **9:16 Shorts (`1080x1920`)** with 4x-supersampled pieces, material advantage bar, live clocks, synthesized move/capture/check/checkmate SFX, pairs authentic *Yu Yu Hakusho* / *Rurouni Kenshin* tactical quotes and rotating nostalgic music tracks, generates `1280x720` winning-arrow thumbnails, and schedules YouTube Data API v3 uploads with pinned comments.
 - **Automated Studio Quality Gate & Procedural Ink Studio Splats (`Test-StudioQualityGate.ps1`, `tools/Invoke-InkStudioSplatGenerator.ps1`)**: Strict pre-flight script auditing file integrity, WebGL rendering readiness, Meta Quest 3 / Xbox controller haptics, and engine launcher parity across UE5.8, Unity 6, and Godot 4, plus newly added **`@shapeshift-labs/ink-studio`** CLI integration (`agent-tools/ink-studio/repo/cli/ink-studio.js`) for zero-dependency SDF sculpting and pixel-art Gaussian splat scene generation (`game studio` & `3d images`), aligned with GitHub trending **`threejs-skills`** / **`zhuyansen/awesome-3d-skills`**.
 - **Antigravity Engine Forge IDE (`engine_forge.html`, `engine_forge.js`, `Start-EngineForge.ps1`, `Launch_Engine_Forge.bat`)**:
@@ -100,7 +101,7 @@ Modern UE5 games (Tekken 8, Black Myth: Wukong, etc.) utilize the **IoStore (Zen
 - **`retoc` & `UnrealReZen`**: Command-line utilities for packing, unpacking, and converting Zen containers for mod creation.
 - **Pak Mod Placement**: Inject cosmetic modifications into `Polaris/Content/Paks/~mods/`.
 - **Integrity Validation**: Automated SHA-1 and CRC32 checksum validation in `rom_tools.py` ensuring patches do not corrupt clean ROMs or game assets.
-- **Xbox PC GUI Dashboard & Grand ROM Palace 3D Studio (`xbox_pc_gui.html`, `tools/xbox_gui_server.py`, `tools/build_grand_rom_catalog.py`, `rom_studio_3d.html`, `rom_studio_engine.js`)**: Interactive local dashboard (`localhost:8888`) and Art Deco 3D cinema ROM studio managing a **759-game deduplicated retail ROM catalog across 18 consoles** (Dolphin `dolphin-2512-x64`, `ares v148`, PCSX2-Qt, RPCS3, DuckStation, ShadPS4, PPSSPP, Flycast, Mesen, NO$GBA, Ryujinx/Suyu) with 7-Zip auto-extraction and WinSta0 direct launch. Upgraded on **`2026-11-22 10:47`** with **4 vehicle traversal modes** (`foot`, **`kart` Hyper-Veloce X1**, **`hoverboard` Blue Star Aero-Blade**, `drone`), **3-tier Mini-Turbo drift boost** (`Blue`, `Orange`, `Ultra Chaos`), **Freeplay Basement & Neon Raceway lap/checkpoint portal**, and **Web Gamepad API Xbox controller** support.
+- **Xbox PC GUI Dashboard & Grand ROM Palace 3D Studio (`xbox_pc_gui.html`, `tools/xbox_gui_server.py`, `tools/build_grand_rom_catalog.py`, `rom_studio_3d.html`, `rom_studio_engine.js`, `rom_studio_dashboard.js`)**: Interactive local dashboard (`localhost:8888`) and Art Deco 3D cinema ROM studio managing a **759-game deduplicated retail ROM catalog across 18 consoles** (Dolphin `dolphin-2512-x64`, `ares v148`, PCSX2-Qt, RPCS3, DuckStation, ShadPS4, PPSSPP, Flycast, Mesen, NO$GBA, Ryujinx/Suyu) with 7-Zip auto-extraction and WinSta0 direct launch. Upgraded on `2026-11-22 10:47` with **4 vehicle traversal modes** (`foot`, **`kart` Hyper-Veloce X1**, **`hoverboard` Blue Star Aero-Blade**, `drone`), **3-tier Mini-Turbo drift boost** (`Blue`, `Orange`, `Ultra Chaos`), **Freeplay Basement & Neon Raceway lap/checkpoint portal**, and **Web Gamepad API Xbox controller** support; further upgraded on **`2026-11-24 01:45 AM`** (`?v=20261124j`) with **`rom_studio_dashboard.js`** (Grand Art Deco Cinema Palace Game Library Overlay featuring console chip filters, live search, favorites/recently played persistence, 1-Click Play, Visit 3D Hall, and Xbox Gamepad `.gp-focus` navigation).
 - **NVIDIA MotionBricks Smart-Primitives Kinematics (`rom_studio_motion.js` & `Motion` Project)**: Bridges NVIDIA Research's SIGGRAPH 2026 **MotionBricks** (`NVlabs/motionbricks`, staged in `Motion/https   hugging.txt` -> `townbox/motionbricks-playground`) generative character motion concepts (composable Smart Primitives, context-to-target damped pose blending, JSON trajectory playback) onto Three.js articulated Chao and Humanoid rigs inside Grand ROM Palace. Paired with newly initialized **`emulator and rom hunter`** for automated ROM/emulator curation, and tracking Nov 2026 GitHub Xbox Series static recompilation research (**`ItsNotRexed/Leonida`**, **`R0Y00/Xbox2Windows`**, **`omonkeyz/xbox-emulator`**).
 - **3D ROM Studio Launcher (`Start-3DROMStudio.ps1`, `Launch_3D_ROM_Studio.bat`)**: Dedicated PowerShell and batch launchers providing one-click startup for 3D cartridge inspection and live ROM modification directly inside `game mods` and `game studio`.
 
@@ -123,10 +124,10 @@ Migrate `word-defender-xr.html`, 3D studio environments, and procedural WebGL sc
   - Utilizes `CountingSort` TSL GPU compute pass (prefix sums, histogram, scatter via atomic operations) running on WebGPU without CPU bottlenecking.
   - Supports `.spz`, `.ksplat`, `.ply`, and `KHR_gaussian_splatting` glTF extensions for photorealistic 3D captures across `3d images`, `VR creation apps`, and `My Planetarium`.
   - Features `workgroupArray` compute nodes for high-throughput memory sharing within shader workgroups; streamlined TSL node API with deprecated `viewportResolution` and `rangeFog` removed.
-- **Three.js r187 (October 30, 2026) PBR & WebGPU Scheduling Breakthroughs**:
+- **Three.js r187 (October 30, 2026; ~80% of commits focused on `WebGPURenderer` & TSL) PBR & WebGPU Scheduling Breakthroughs**:
   - **PMREM Cube Render Target Overhaul (`PR #34585`)**: Drops the legacy `CubeUV` atlas in favor of native cube render targets for `PMREMGenerator`, reducing image-based lighting (IBL) color discrepancies by 37%–82% versus Blender Cycles and restoring clean roughness ramps.
   - **EON Rough Diffuse BRDF (`PR #34379`)**: Adds the **Energy-preserving Oren-Nayar (EON)** rough diffuse BRDF model to `MeshPhysicalMaterial`, correcting energy loss on matte/stone/fabric surfaces.
-  - **Cooperative `compileAsync()` Scheduling (`PR #34816`)**: Caps concurrent shader compilation at **16 pipelines in flight** and cooperatively yields back to the main thread after **~8 ms slices**, slashing warm-up load times for dense TSL/node scenes without frame-drop jank; completes removal of `r177`-deprecated `CubeUVReflectionMapping`.
+  - **Cooperative `compileAsync()` Scheduling (`PR #34816`) & TSL Type Promotion**: Caps concurrent shader compilation at **16 pipelines in flight** and cooperatively yields back to the main thread after **~8 ms slices**, slashing warm-up load times for dense TSL/node scenes without frame-drop jank; adds automatic type promotion rules to TSL math operations; completes removal of `r177`-deprecated `CubeUVReflectionMapping`; and updates `WebGLRenderer.setViewport()` / `setScissor()` behaviors on bound render targets.
   - **Chrome 157 WebGPU Subgroup Controls, Android WebGPU & `three-live` AI-to-glTF**: Chrome 157 (Nov 2026) adds WebGPU subgroup size controls for compute shaders (`GaussianSplatMesh` `CountingSort`) and rolls out WebGPU on Android 12+ Qualcomm/ARM GPUs, while Google-backed `three-live` compilers serialize AI-generated 3D scripts cleanly into binary glTF assets.
 - **Meta Immersive Web SDK (`@iwsdk/core` 0.3.1), HavokPhysics WASM & `WorldTear` Passthrough AR (`VR creation apps/github-repos/WorldTear`)**:
   - Deployed **WorldTear** (Invisibility Cape on Quest 3) using `@iwsdk/core` 0.3.1, `super-three@0.181.0`, **HavokPhysics WASM**, `vite-plugin-mkcert` HTTPS, and W3C **WebXR Raw Camera Access (`'camera-access'`)** via `XRWebGLBinding.getCameraImage(view.camera)` with zero-allocation per-frame stereo texture binding (`uIsRightEye` / `uCameraLeft` / `uCameraRight`) and ECS Verlet cloth simulation poked by `world.input.xrOrigin.indexTipSpaces.{left,right}`.
@@ -676,7 +677,7 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
   - 1280x720 High-CTR YouTube Thumbnail with bold contrast text overlay (`assets/branding/`)
   - Vertical 9:16 Short MP4 (`output/*_SHORT_9x16.mp4`)
   - Horizontal 16:9 Long-Form Master Loop MP4 (`output/*_LONG_16x9.mp4`)
-- **Automation Tooling (`character_rotation_catalog.json` refreshed `2026-11-22 22:29`)**:
+- **Automation Tooling (`character_rotation_catalog.json` refreshed `2026-11-23 14:29`)**:
   - `New-WhiteNoisePair.ps1`: Generates paired Short and Long-form assets with matching SEO tags, descriptions, and high-CTR thumbnail prompts.
   - `New-ChannelBranding.ps1`: Generates channel banner (`2560x1440`) and avatar (`800x800`).
   - `youtube_api_upload.py`: Headless YouTube Data API v3 uploader utilizing OAuth 2.0 refresh tokens, automatic category assignment (`24 - Entertainment` / `10 - Music`), and automated schedule queuing.
@@ -696,7 +697,7 @@ Prevents audience burnout while capitalizing on cross-fandom nostalgia:
 ## 13. Antigravity 3D Art Gallery Studio & Index Museum (`index folder`)
 
 ### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\index folder\3d-gallery-studio.html`)
-The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active **87-project** portfolio (88 directories including `Bookmark-favorites`, `Motion`, `Highschool basketball`, `geminipc`, `Neon- orchestrator`, `emulator and rom hunter`, `Popular Github Projects`, and `increase my bing score`) into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
+The **`index folder`** project hosts the **Antigravity 3D Art Gallery Studio & Index Museum**, an immersive first-person 3D WebGL exhibition space built with Three.js. It transforms the active **88-project** portfolio (90 top-level directories including `Google Flow- Movies`, `Bookmark-favorites`, `Motion`, `Highschool basketball`, `geminipc`, `Neon- orchestrator`, `emulator and rom hunter`, `Popular Github Projects`, and `increase my bing score`) into a virtual gallery walkthrough featuring 5 themed wings corresponding to the project categories:
 
 ```mermaid
 flowchart TD
@@ -790,3 +791,19 @@ flowchart TD
 ## 15. Newly Initialized Sports Analytics Workspace (`Highschool basketball`)
 - **Role**: Dedicated sports analytics, scouting, and game film / shot-chart workspace (`G:\My Drive\Antigravity\Projects\Highschool basketball`).
 - **Recommended Stack**: Python 3.12 (`uv`) + OpenCV court homography / shot-chart tracking + `100vw x 100vh` GitHub Primer dark telemetry console matching `aws-enterprise-baseline.css` and `MCP` Baseline 2.0 (`Ctrl+M` / `Ctrl+E`), with `iamajmeena/neonclipping` / FFmpeg `av1_nvenc` highlight reel clipping.
+
+---
+
+## 16. Google Flow Cinematic Anime & Short Film Studio (`Google Flow- Movies`)
+
+### Architectural Blueprint (`G:\My Drive\Antigravity\Projects\Google Flow- Movies`)
+Newly detected on **November 23, 2026** (`51 files, 292.29 MB`), **`Google Flow- Movies`** establishes a repeatable generative anime and short-film production pipeline powered by **Google Flow** (`Nano Banana 2` image synthesis + `Veo 3.1 Lite` / `Omni 1.2 Flash` 24fps video generation + object lasso / Start-to-End keyframe locking) paired with post-production sakuga compositing.
+
+### Showcase Production: `dead-channel-13` (*"Rain on the Glass — The 13-Second Catwalk Brawl"*)
+- **Production Bible (`dead-channel-13/production_bible.md` & `shots.json`)**: 1999 Kanda-Akihabara sci-fi martial arts cel-anime sequence locked to 1990s hand-inked aesthetics (*Cowboy Bebop*, *Bungo Stray Dogs*, *Yu Yu Hakusho*, *Steins;Gate*) with strict Anti-Slop exclusions (zero 3D CGI, zero plastic skin shading) and locked multi-cut character descriptors (`Renji Takanashi`, `Toma Kurose`, `Sora Hayakawa`, `Kuroha "Vesper"`, `Masato Kurosawa "The Metronome"`).
+- **v2.0 *Dandadan* / *Yu Yu Hakusho* Sakuga Rebuild (`sakuga_v2_blueprint.md`)**:
+  1. **Micro-Cut Compression (`0.4s–2.2s` Cuts)**: Slices combat on strike apexes to eliminate generative video drift beyond `~2.5s`.
+  2. **Start -> End *Genga* Keyframe Locks + 14mm Fisheye Lenses**: Uses Google Flow Start/End frame anchors (`frames_v2/sakuga_kf1_fisheye_blitz.webp`, `sakuga_kf2_blade_clash_sakuga.webp`, `sakuga_kf3_masato_zerobeat_ecu.webp`) to constrain anatomy and momentum.
+  3. **Non-Linear *Tame-Tsume* Speed Ramping & `12fps` On-Twos**: Ramps wind-ups `1.5x -> 2.7x`, drops melee peaks to held `on_twos` pairs, and injects `3–5` frame *Hakukoma*/*Kurokoma* B&W ink hit-stops (`rgb_split=6`, `±14px` shake) plus `dandadan_cyan` / `dandadan_crimson` duotone snaps.
+  4. **Vacuum-Silence Audio Contrast (`0.20s–0.22s`) & Native Japanese Lip-Sync (`1.0x`)**: Drops music and rain to `0.03x` pre-impact and embeds quoted Japanese dialogue directly in prompts (`v2_02_sora_native_jp.mp4`, `v2_04_renji_native_jp.mp4`, `v2_05_masato_zerobeat_native_jp.mp4`) for native jaw/mouth-flap alignment across 8 rendered master/dub/sub MP4 cuts (`DEAD_CHANNEL_13_V2_DEFINITIVE_JP_SUB.mp4`, `DEAD_CHANNEL_13_V2_DEFINITIVE_EN_DUB.mp4`, `Directors_Cut_Master.mp4`).
+- **Immediate Frontier Upgrades**: Automate shot-manifest -> Flow/AI Studio API batch orchestration via `shots.json` (Gemini API `Nano Banana 2` -> `Veo 3.1` frame chaining), generate `1280x720` High-CTR thumbnails + 9:16 teasers for `youtube channels` / `My Social Media`, and register `Google Flow- Movies` in `deploy/PROJECT_CATALOG.json` & `index folder`.
